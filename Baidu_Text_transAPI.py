@@ -11,8 +11,8 @@ from hashlib import md5
 
 def baidu_trans(query,from_lang='auto',to_lang='zh'):
 # Set your own appid/appkey.
-    appid = '20220316001127320'
-    appkey = 'DuqGdPQ9xMLXDlXCecU7'
+    appid = 'yourappid'
+    appkey = 'yourappkey'
 
     # For list of language codes, please refer to `https://api.fanyi.baidu.com/doc/21`
     from_lang = from_lang
