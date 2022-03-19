@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'easytransMyBGQv.ui'
+## Form generated from reading UI file 'easytransbRFvAz.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.2.3
 ##
@@ -131,19 +131,10 @@ class Ui_Form(object):
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"SelecTrans", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"easytrans", None))
         self.checkBox.setText(QCoreApplication.translate("Form", u"\u7f6e\u9876", None))
-#if QT_CONFIG(tooltip)
-        self.checkBox_2.setToolTip(QCoreApplication.translate("Form", u"\u8c03\u6574pdf\u6587\u672c\u683c\u5f0f", None))
-#endif // QT_CONFIG(tooltip)
         self.checkBox_2.setText(QCoreApplication.translate("Form", u"pdf\u6a21\u5f0f", None))
-#if QT_CONFIG(tooltip)
-        self.checkBox_3.setToolTip(QCoreApplication.translate("Form", u"\u662f\u5426\u5c06\u7ed3\u679c\u590d\u5236\u5230\u526a\u8d34\u677f", None))
-#endif // QT_CONFIG(tooltip)
-        self.checkBox_3.setText(QCoreApplication.translate("Form", u"\u590d\u5236\u7ed3\u679c", None))
-#if QT_CONFIG(tooltip)
-        self.checkBox_4.setToolTip(QCoreApplication.translate("Form", u"\u52fe\u9009\u540e\u5212\u7ebf\u7ffb\u8bd1\u5931\u6548", None))
-#endif // QT_CONFIG(tooltip)
+        self.checkBox_3.setText(QCoreApplication.translate("Form", u"\u590d\u5236\u8bd1\u6587", None))
         self.checkBox_4.setText(QCoreApplication.translate("Form", u"\u65e0\u6362\u884c\u590d\u5236", None))
 #if QT_CONFIG(tooltip)
         self.pushButton.setToolTip(QCoreApplication.translate("Form", u"\u5b57\u53f7\u589e\u5927", None))
@@ -162,7 +153,7 @@ class Ui_Form(object):
         self.comboBox.setItemText(6, QCoreApplication.translate("Form", u"\u7ca4\u8bed", None))
 
 #if QT_CONFIG(tooltip)
-        self.comboBox.setToolTip(QCoreApplication.translate("Form", u"\u76ee\u6807\u8bed\u8a00", None))
+        self.comboBox.setToolTip(QCoreApplication.translate("Form", u"\u9009\u62e9\u8981\u7ffb\u8bd1\u4e3a\u4ec0\u4e48\u8bed\u8a00", None))
 #endif // QT_CONFIG(tooltip)
         self.comboBox.setCurrentText(QCoreApplication.translate("Form", u"\u7b80\u4f53\u4e2d\u6587", None))
         self.comboBox.setPlaceholderText("")

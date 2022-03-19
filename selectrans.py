@@ -29,7 +29,7 @@ class MainWindow(QWidget):
         self.ui.setupUi(self)
         self.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
-        self.ui.textBrowser.setPlaceholderText(r"版本V1.0.0 github地址：https://github.com/xunbu" + '\n选中要翻译的内容,ctrl+c翻译\n输入要翻译的内容,ctrl+enter翻译\nctrl+c使用无换行复制')
+        self.ui.textBrowser.setPlaceholderText(r"版本V1.0.1 github地址：https://github.com/xunbu/selectrans" + '\n选中要翻译的内容,ctrl+c翻译\n输入要翻译的内容,ctrl+enter翻译\nctrl+c使用无换行复制')
         self.ui.checkBox.clicked.connect(self.toppingwindow)
         self.ui.pushButton.clicked.connect(self.increase_fontsize)
         self.ui.pushButton_2.clicked.connect(self.decrease_fontsize)
@@ -139,8 +139,18 @@ class MainWindow(QWidget):
         thread2 = Thread(target=run)
         thread2.setDaemon(True)
         thread2.start()
+
+
     def changdisplay(self,text):
+        if self.ui.comboBox.currentText() in ["简体中文","粤语","繁體中文","日本語"]:
+            self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,108)
+            self.ui.textBrowser.setFont(self.font)
+        else:
+            self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,100)
+            self.ui.textBrowser.setFont(self.font)
+
         self.ui.textBrowser.setText(text)
+
 
 app = QApplication([])
 mainw = MainWindow()
