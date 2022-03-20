@@ -21,6 +21,7 @@ global_ms = MySignals()
 
 langdic={"简体中文":"zh","粤语":"yue","English":"en","日本語":"jp","한국어 공부 해요":"kor","русский язык":"ru","繁體中文":"cht"}
 
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -46,10 +47,15 @@ class MainWindow(QWidget):
         self.font.setPointSize(self.fontsize)
         self.ui.textEdit.setFont(self.font)
 
+        cursor=self.setcursorindent()
+
+    def setcursorindent(self):
+        self.ui.textEdit.clear()
         cursor=QTextCursor(self.ui.textEdit.document())
         block_format=cursor.blockFormat()
         block_format.setTextIndent(20)
         cursor.setBlockFormat(block_format)
+        return cursor
 
     def toppingwindow(self):
         if self.ui.checkBox.checkState():
@@ -62,13 +68,19 @@ class MainWindow(QWidget):
         self.fontsize+=1
         self.font.setPointSize(self.fontsize)
         self.ui.textEdit.setFont(self.font)
-        self.ui.textEdit.setText(str(self.ui.textEdit.toPlainText()))
+
+        toplaintext=self.ui.textEdit.toPlainText()
+        cursor=self.setcursorindent()
+        cursor.insertText(toplaintext)
 
     def decrease_fontsize(self):
         self.fontsize-=1
         self.font.setPointSize(self.fontsize)
         self.ui.textEdit.setFont(self.font)
-        self.ui.textEdit.setText(str(self.ui.textEdit.toPlainText()))
+
+        toplaintext=self.ui.textEdit.toPlainText()
+        cursor=self.setcursorindent()
+        cursor.insertText(toplaintext)
 
     def delimitation_translation(self):
         def run():
@@ -162,11 +174,7 @@ class MainWindow(QWidget):
 
 
     def changdisplay(self,text):
-        self.ui.textEdit.clear()
-        cursor=QTextCursor(self.ui.textEdit.document())
-        block_format=cursor.blockFormat()
-        block_format.setTextIndent(20)
-        cursor.setBlockFormat(block_format)
+        cursor=self.setcursorindent()
         cursor.insertText(text)
 
 
