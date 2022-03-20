@@ -1,4 +1,4 @@
-from ui1 import Ui_Form
+from ui2 import Ui_Form
 from PySide6.QtWidgets import QApplication,QWidget
 import time
 from Baidu_Text_transAPI import baidu_trans
@@ -9,6 +9,7 @@ import images
 from threading import Thread,Lock
 from PySide6.QtCore import Signal ,QObject
 from PySide6 import QtCore,QtGui
+from PySide6.QtGui import QTextCursor
 
 
 textbrowser_lock=Lock()
@@ -29,7 +30,7 @@ class MainWindow(QWidget):
         self.ui.setupUi(self)
         self.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
-        self.ui.textBrowser.setPlaceholderText(r"版本V1.0.1 github地址：https://github.com/xunbu/selectrans" + '\n选中要翻译的内容,ctrl+c翻译\n输入要翻译的内容,ctrl+enter翻译\nctrl+c使用无换行复制')
+        self.ui.textEdit.setPlaceholderText(r"版本V1.0.2 github地址：https://github.com/xunbu/selectrans" + '\n选中要翻译的内容,ctrl+c翻译\n输入要翻译的内容,ctrl+enter翻译\n无换行复制:ctrl+c复制无换行符文本')
         self.ui.checkBox.clicked.connect(self.toppingwindow)
         self.ui.pushButton.clicked.connect(self.increase_fontsize)
         self.ui.pushButton_2.clicked.connect(self.decrease_fontsize)
@@ -39,10 +40,16 @@ class MainWindow(QWidget):
         global_ms.text_print.connect(self.changdisplay)
 
         self.fontsize=12
-        self.font=self.ui.textBrowser.font()
+        self.font=self.ui.textEdit.font()
+        self.font.setWordSpacing(0.3)
+        self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,102)
         self.font.setPointSize(self.fontsize)
-        self.ui.textBrowser.setFont(self.font)
+        self.ui.textEdit.setFont(self.font)
 
+        cursor=QTextCursor(self.ui.textEdit.document())
+        block_format=cursor.blockFormat()
+        block_format.setTextIndent(20)
+        cursor.setBlockFormat(block_format)
 
     def toppingwindow(self):
         if self.ui.checkBox.checkState():
@@ -54,14 +61,14 @@ class MainWindow(QWidget):
     def increase_fontsize(self):
         self.fontsize+=1
         self.font.setPointSize(self.fontsize)
-        self.ui.textBrowser.setFont(self.font)
-        self.ui.textBrowser.setText(str(self.ui.textBrowser.toPlainText()))
+        self.ui.textEdit.setFont(self.font)
+        self.ui.textEdit.setText(str(self.ui.textEdit.toPlainText()))
 
     def decrease_fontsize(self):
         self.fontsize-=1
         self.font.setPointSize(self.fontsize)
-        self.ui.textBrowser.setFont(self.font)
-        self.ui.textBrowser.setText(str(self.ui.textBrowser.toPlainText()))
+        self.ui.textEdit.setFont(self.font)
+        self.ui.textEdit.setText(str(self.ui.textEdit.toPlainText()))
 
     def delimitation_translation(self):
         def run():
@@ -102,11 +109,17 @@ class MainWindow(QWidget):
                     else:
                         result = {"trans_result": [{'src': ' ', 'dst': ' '}]}
                     display = ''
-                    for i in result['trans_result']:
-                        display += '  ' + i['dst'] + '\n'
-                    display=display[:-1]#去掉最后一个回车
-                # 如果打开复制结果，则将结果复制到剪贴板中
-                if self.ui.checkBox_3.checkState() and not self.ui.checkBox_4.checkState():
+                    haveresult=1
+                    if 'trans_result' in result:
+                        for i in result['trans_result']:
+                            display += i['dst'] + '\n'
+                        display=display[:-1]#去掉最后一个回车
+                    else:
+                        #接口使用过于频繁会停止
+                        haveresult=0
+                        display='翻译接口被占用，请再次尝试'
+                    # 如果打开复制结果，则将结果复制到剪贴板中
+                if self.ui.checkBox_3.checkState() and not self.ui.checkBox_4.checkState() and haveresult:
                     pyperclip.copy(display)
                 textbrowser_lock.acquire()
                 global_ms.text_print.emit(display)
@@ -121,16 +134,22 @@ class MainWindow(QWidget):
             print('子线程2开始')
             while 1:
                 keyboard.wait('ctrl+enter')  # 翻译触发按键
-                raw_str = self.ui.textBrowser.toPlainText()
+                raw_str = self.ui.textEdit.toPlainText()
                 if len(raw_str) != 0:
                     result = json.loads(baidu_trans(raw_str, to_lang=langdic[self.ui.comboBox.currentText()]))
                 else:
                     result = {"trans_result": [{'src': ' ', 'dst': ' '}]}
                 display = ''
-                for i in result['trans_result']:
-                    display += '  ' + i['dst'] + '\n'
-                display = display[:-1]  # 去掉最后一个回车
-                if self.ui.checkBox_3.checkState():
+                haveresult=1
+                if 'trans_result' in result:
+                    for i in result['trans_result']:
+                        display += i['dst'] + '\n'
+                    display = display[:-1]  # 去掉最后一个回车
+                else:
+                    # 接口使用过于频繁会停止
+                    haveresult = 0
+                    display = '翻译接口被占用，请再次尝试'
+                if self.ui.checkBox_3.checkState() and haveresult:
                     pyperclip.copy(display)
                 textbrowser_lock.acquire()
                 global_ms.text_print.emit(display)
@@ -141,15 +160,14 @@ class MainWindow(QWidget):
         thread2.start()
 
 
-    def changdisplay(self,text):
-        if self.ui.comboBox.currentText() in ["简体中文","粤语","繁體中文","日本語"]:
-            self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,108)
-            self.ui.textBrowser.setFont(self.font)
-        else:
-            self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,100)
-            self.ui.textBrowser.setFont(self.font)
 
-        self.ui.textBrowser.setText(text)
+    def changdisplay(self,text):
+        self.ui.textEdit.clear()
+        cursor=QTextCursor(self.ui.textEdit.document())
+        block_format=cursor.blockFormat()
+        block_format.setTextIndent(20)
+        cursor.setBlockFormat(block_format)
+        cursor.insertText(text)
 
 
 app = QApplication([])
