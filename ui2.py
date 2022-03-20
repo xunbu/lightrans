@@ -130,7 +130,7 @@ class Ui_Form(object):
     # setupUi
 
     def retranslateUi(self, Form):
-        Form.setWindowTitle(QCoreApplication.translate("Form", u"easytrans", None))
+        Form.setWindowTitle(QCoreApplication.translate("Form", u"SelecTrans", None))
 #if QT_CONFIG(tooltip)
         self.checkBox.setToolTip(QCoreApplication.translate("Form", u"\u7a97\u53e3\u7f6e\u9876", None))
 #endif // QT_CONFIG(tooltip)
