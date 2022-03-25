@@ -4,15 +4,17 @@
 # This code runs on Python 2.7.x and Python 3.x.
 # You may install `requests` to run this code: pip install requests
 # Please refer to `https://api.fanyi.baidu.com/doc/21` for complete api document
+from account import Account
 import requests
 import random
 import json
 from hashlib import md5
 
 def baidu_trans(query,from_lang='auto',to_lang='zh'):
+    account=Account()
 # Set your own appid/appkey.
-    appid = 'yourappid'
-    appkey = 'yourappkey'
+    appid = account.appid
+    appkey = account.appkey
 
     # For list of language codes, please refer to `https://api.fanyi.baidu.com/doc/21`
     from_lang = from_lang
@@ -41,3 +43,7 @@ def baidu_trans(query,from_lang='auto',to_lang='zh'):
 
     # Show response
     return json.dumps(result, indent=4, ensure_ascii=False)
+
+if __name__ == '__main__':
+    a=baidu_trans('I love you')
+    print(a)
