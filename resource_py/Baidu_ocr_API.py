@@ -2,6 +2,7 @@
 
 import requests
 from account import Account
+from resource_py.ErrorRecoder import errorrecoder
 import base64
 import json
 
@@ -9,13 +10,14 @@ def baiduocrAPI(file):
     account=Account()
     print('baiduocrAPI')
     # client_id 为官网获取的AK， client_secret 为官网获取的SK
-
+    proxies = {"http": None, "https": None}
     host = f'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id={account.client_id}&client_secret={account.client_secret}'
-    response = requests.get(host).json()
+    response = requests.get(host,proxies=proxies).json()
     print('response1',response)
     if 'access_token' in response:
         access_token=response['access_token']
     else:
+        errorrecoder.adderror("百度OCR获取token失败,请检查OCR账号是否填写正确")
         return -1
     '''
     通用文字识别
@@ -33,7 +35,7 @@ def baiduocrAPI(file):
     access_token = access_token
     request_url = request_url + "?access_token=" + access_token
     headers = {'content-type': 'application/x-www-form-urlencoded'}
-    response = requests.post(request_url, data=params, headers=headers)
+    response = requests.post(request_url, data=params, headers=headers,proxies=proxies)
     print(response.json())
     return response.json()
 

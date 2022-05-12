@@ -1,3 +1,6 @@
+import threading
+import time
+
 from PySide6.QtWidgets import QApplication, QWidget
 from PySide6.QtCore import Signal, Qt, QPoint, QRect,QRectF,QBuffer,QIODevice
 from PySide6.QtGui import QPalette, QBrush, QPainter, QPen, QColor
@@ -9,10 +12,11 @@ class CaptureWidget(QWidget):
     # 自定义信号
     capture_finished = Signal(bytes)  # 将结果传给主界面
     close_capture_signal = Signal()
+    showapp_signal=Signal()#让原界面显示
 
     def __init__(self):
         super().__init__()
-        print('进入截图程序')
+        t = threading.currentThread()
         self.setWindowTitle('Capturing')
         self.setWindowFlags(Qt.FramelessWindowHint  # 无边框
                             | Qt.WindowStaysOnTopHint  # 页面置于最顶层
@@ -65,6 +69,8 @@ class CaptureWidget(QWidget):
         y1, y2 = sorted((self.start.y(), self.end.y()))
         screen = QApplication.primaryScreen()
         screenShot= screen.grabWindow(0,int(x1),int(y1),int(x2-x1),int(y2-y1))
+        self.setVisible(False)
+        self.showapp_signal.emit()
         buffer = QBuffer()
         buffer.open(QIODevice.ReadWrite)
         screenShot.save(buffer, 'PNG')

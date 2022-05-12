@@ -42,8 +42,8 @@ def baidu_trans(query,from_lang='auto',to_lang='zh'):
     result = r.json()
 
     # Show response
-    return json.dumps(result, indent=4, ensure_ascii=False)
+    return result
 
 if __name__ == '__main__':
-    a=baidu_trans('I love you')
+    a=baidu_trans('I love you\n do you love me')
     print(a)
