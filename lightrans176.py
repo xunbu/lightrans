@@ -1,7 +1,6 @@
 import threading
 
-from ui.ui1 import Ui_Form
-from ui.ui2 import Ui_Form2
+
 from resource_py.stardict import StarDict
 from account import Account
 from resource_py.qss import lightqss,darkqss
@@ -22,6 +21,7 @@ from PySide6.QtCore import Signal,QObject,QThread
 from PySide6 import QtCore,QtGui
 from PySide6.QtWidgets import QMessageBox
 from PySide6.QtGui import QTextCursor,QIcon
+from PySide6.QtUiTools import QUiLoader
 from resource_py.ecdict_API import ecdict_search
 
 copytranslate_lock=Lock()
@@ -69,17 +69,20 @@ class MainWindow(QWidget):
     auto_mode=0
     def __init__(self):
         super().__init__()
+        self.ui=QUiLoader().load(r"./ui/lightrans.ui")
+        self.ui2=QUiLoader().load(r"./ui/setting.ui")
         self.engine=account.engine
         #应用qss样式表
-        self.setStyleSheet(lightqss)
+        self.ui.setStyleSheet(lightqss)
         # 使用ui文件导入定义界面类
-        self.ui = Ui_Form()
-        self.ui2= Ui_Form2()
-        # 初始化界面
-        self.ui.setupUi(self)
-        self.ui2.setupUi(self.ui2)
+        # self.ui = Ui_Form()
+        # self.ui2= Ui_Form2()
+        # # 初始化界面
+        # self.ui.setupUi(self)
+        # self.ui2.setupUi(self.ui2)
+
         self.ui2.setStyleSheet(lightqss)
-        self.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
+        self.ui.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
         self.ui2.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
         self.ui.pushButton_topping.setIcon(QIcon(r":/toppingblue.png"))
         self.ui.pushButton_setting.setIcon(QIcon(r":/setting.png"))
@@ -540,7 +543,7 @@ class MainWindow(QWidget):
 
 app = QApplication([])
 mainw = MainWindow()
-mainw.show()
+mainw.ui.show()
 exit_code=app.exec()
 
 
