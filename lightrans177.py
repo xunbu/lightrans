@@ -544,7 +544,7 @@ class MainWindow():
 app = QApplication([])
 mainw = MainWindow()
 mainw.ui.show()
-exit_code=app.exec()
+app.exec()
 
 
 
