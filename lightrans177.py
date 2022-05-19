@@ -424,7 +424,7 @@ class MainWindow():
         thread2.start()
 
     def ocr_button(self):
-        if self.isVisible():
+        if self.ui.isVisible():
             self.ui.setVisible(False)
         time.sleep(0.3)  # 不加延时太快的话可能来不及隐藏界面
         global_ms.show_capture.emit()
@@ -434,7 +434,7 @@ class MainWindow():
             print('子线程3开始')
             while 1:
                 keyboard.wait(hotkey_ocr)
-                if self.isVisible():
+                if self.ui.isVisible():
                     self.ui.setVisible(False)
                 time.sleep(0.3)  # 不加延时太快的话可能来不及隐藏界面
                 global_ms.show_capture.emit()
