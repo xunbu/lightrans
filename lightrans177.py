@@ -263,7 +263,7 @@ class MainWindow():
             self.ui.setWindowFlags(QtCore.Qt.Widget)
             self.ui.pushButton_topping.setIcon(QIcon(r":/toppingblack.png"))
             self.topping=0
-        self.show()
+        self.ui.show()
 
     #显示上一个record内容
     def record_pre(self):
