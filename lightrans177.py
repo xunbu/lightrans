@@ -256,11 +256,11 @@ class MainWindow():
 
     def toppingwindow(self):
         if self.topping==0:
-            self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+            self.ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
             self.ui.pushButton_topping.setIcon(QIcon(r":/toppingblue.png"))
             self.topping=1
         else:
-            self.setWindowFlags(QtCore.Qt.Widget)
+            self.ui.setWindowFlags(QtCore.Qt.Widget)
             self.ui.pushButton_topping.setIcon(QIcon(r":/toppingblack.png"))
             self.topping=0
         self.show()
