@@ -425,7 +425,7 @@ class MainWindow():
 
     def ocr_button(self):
         if self.isVisible():
-            self.setVisible(False)
+            self.ui.setVisible(False)
         time.sleep(0.3)  # 不加延时太快的话可能来不及隐藏界面
         global_ms.show_capture.emit()
 
@@ -435,7 +435,7 @@ class MainWindow():
             while 1:
                 keyboard.wait(hotkey_ocr)
                 if self.isVisible():
-                    self.setVisible(False)
+                    self.ui.setVisible(False)
                 time.sleep(0.3)  # 不加延时太快的话可能来不及隐藏界面
                 global_ms.show_capture.emit()
 
@@ -456,7 +456,7 @@ class MainWindow():
         self._captureW.capture_finished.connect(self.ocrQimage)
 
     def showapp(self):
-        self.setVisible(True)
+        self.ui.setVisible(True)
 
 
     def ocrQimage(self,imagebytes):
@@ -528,7 +528,7 @@ class MainWindow():
     # 关闭截图界面
     def close_capture_widget(self):
         self._captureW.close()
-        self.setVisible(True)
+        self.ui.setVisible(True)
 
 
     def changdisplay(self,text):
