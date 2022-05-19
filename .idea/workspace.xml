@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9d2bbcdd-85c6-4c5b-a1df-42f00113ae56" name="变更" comment="update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lightrans176.py" beforeDir="false" afterPath="$PROJECT_DIR$/lightrans177.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lightrans177.py" beforeDir="false" afterPath="$PROJECT_DIR$/lightrans177.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,13 +23,14 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/dist" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../PyCharm Community Edition 2021.3/virtualenv/selectransenv/Scripts/pyside6-designer.exe" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.ChangelistConflict" />
+    <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -77,7 +78,7 @@
       <updated>1652349498463</updated>
       <workItem from="1652349505709" duration="48000" />
       <workItem from="1652349585084" duration="1019000" />
-      <workItem from="1652936554419" duration="3526000" />
+      <workItem from="1652936554419" duration="4046000" />
     </task>
     <task id="LOCAL-00001" summary="add  database">
       <created>1652349941879</created>
@@ -121,7 +122,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652943405000</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="update">
+      <created>1652944312868</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1652944312869</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

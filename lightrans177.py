@@ -73,6 +73,7 @@ class MainWindow():
         self.engine=account.engine
         #应用qss样式表
         self.ui.setStyleSheet(lightqss)
+        #如果使用py代码导入界面
         # 使用ui文件导入定义界面类
         # self.ui = Ui_Form()
         # self.ui2= Ui_Form2()
