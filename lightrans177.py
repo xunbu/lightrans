@@ -63,12 +63,11 @@ global_ms = MySignals()
 langdic={"简体中文":"zh","Français":"fra","Español":"spa","English":"en","日本語":"jp","한국어 공부 해요":"kor","русский язык":"ru","繁體中文":"cht"}
 
 
-class MainWindow(QWidget):
+class MainWindow():
     topping=1
     dict_mode=0
     auto_mode=0
     def __init__(self):
-        super().__init__()
         self.ui=QUiLoader().load(r"./ui/lightrans.ui")
         self.ui2=QUiLoader().load(r"./ui/setting.ui")
         self.engine=account.engine
@@ -94,7 +93,7 @@ class MainWindow(QWidget):
         self.ui.pushButton_screenshot.setIcon(QIcon(r":/screenshot.png"))
         self.ui.pushButton_pre.setIcon(QIcon(r":/pre.png"))
         self.ui.pushButton_next.setIcon(QIcon(r":/next.png"))
-        self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
+        self.ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
         self.ui.textEdit.setPlaceholderText(f"划词翻译:选中要翻译的内容,{hotkey_select}翻译\n输入翻译:输入要翻译的内容,{hotkey_input}翻译\n无换行复制:{hotkey_select}复制无换行符文本\nOCR文字识别:{hotkey_ocr}")
         self.ui2.label_5.setText('V1.7.7   项目主页: <a style="color:black" href="https://www.xunbu.cc/lightrans">xunbu.cc/lightrans</a>')
         self.ui.pushButton_topping.clicked.connect(self.toppingwindow)
@@ -117,11 +116,11 @@ class MainWindow(QWidget):
 
 
 
-        increaseShortcut = QtGui.QShortcut(QtGui.QKeySequence(QObject.tr("ctrl+up")), self)
+        increaseShortcut = QtGui.QShortcut(QtGui.QKeySequence(QObject.tr("ctrl+up")), self.ui)
         increaseShortcut.activated.connect(self.increase_fontsize)
-        decreaseShortcut = QtGui.QShortcut(QtGui.QKeySequence(QObject.tr("ctrl+down")), self)
+        decreaseShortcut = QtGui.QShortcut(QtGui.QKeySequence(QObject.tr("ctrl+down")), self.ui)
         decreaseShortcut.activated.connect(self.decrease_fontsize)
-        deleteShortcut = QtGui.QShortcut(QtGui.QKeySequence(QObject.tr("ctrl+delete")), self)
+        deleteShortcut = QtGui.QShortcut(QtGui.QKeySequence(QObject.tr("ctrl+delete")), self.ui)
         deleteShortcut.activated.connect(self.cleartext)
 
 
