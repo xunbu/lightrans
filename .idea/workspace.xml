@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9d2bbcdd-85c6-4c5b-a1df-42f00113ae56" name="变更" comment="update" />
+    <list default="true" id="9d2bbcdd-85c6-4c5b-a1df-42f00113ae56" name="变更" comment="update">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lightrans177.py" beforeDir="false" afterPath="$PROJECT_DIR$/lightrans178.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,20 +27,20 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/dist" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.fileTypes" />
+    <property name="settings.editor.selected.configurable" value="preferences.externalTools" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\pyfiles\lightrans" />
       <recent name="D:\pyfiles\lightrans\dist" />
       <recent name="D:\pyfiles\lightrans\ui" />
-      <recent name="D:\pyfiles\lightrans" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="lightrans177" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="lightrans178" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="lightrans" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -50,7 +53,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="D:\pyfiles\lightrans\lightrans177.py" />
+      <option name="SCRIPT_NAME" value="D:\pyfiles\lightrans\lightrans178.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -61,7 +64,7 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.lightrans177" />
+        <item itemvalue="Python.lightrans178" />
       </list>
     </recent_temporary>
   </component>
@@ -75,7 +78,13 @@
       <updated>1652349498463</updated>
       <workItem from="1652349505709" duration="48000" />
       <workItem from="1652349585084" duration="1019000" />
-      <workItem from="1652936554419" duration="5024000" />
+      <workItem from="1652936554419" duration="11239000" />
+      <workItem from="1653010813653" duration="36000" />
+      <workItem from="1653020402623" duration="3822000" />
+      <workItem from="1653037087555" duration="8315000" />
+      <workItem from="1653794398833" duration="275000" />
+      <workItem from="1653890596386" duration="877000" />
+      <workItem from="1654697503632" duration="2419000" />
     </task>
     <task id="LOCAL-00001" summary="add  database">
       <created>1652349941879</created>
@@ -140,7 +149,35 @@
       <option name="project" value="LOCAL" />
       <updated>1652945720194</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="update">
+      <created>1652946079636</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1652946079636</updated>
+    </task>
+    <task id="LOCAL-00011" summary="update">
+      <created>1652946269498</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1652946269498</updated>
+    </task>
+    <task id="LOCAL-00012" summary="update">
+      <created>1652949806704</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1652949806704</updated>
+    </task>
+    <task id="LOCAL-00013" summary="update">
+      <created>1652949842909</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1652949842909</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -163,6 +200,8 @@
     <option name="LAST_COMMIT_MESSAGE" value="update" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/lightrans$lightrans176.coverage" NAME="lightrans177 覆盖结果" MODIFIED="1652945710503" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/lightrans$lightrans178.coverage" NAME="lightrans178 覆盖结果" MODIFIED="1654699908237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/lightrans$lightrans176.coverage" NAME="lightrans177 覆盖结果" MODIFIED="1652949826178" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/lightrans$lightrans177.coverage" NAME="lightrans177 覆盖结果" MODIFIED="1653052542865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
