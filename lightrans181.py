@@ -363,6 +363,11 @@ class MainWindow():
     #翻译识别主要函数
     def copytranslate(self, str1:str):
         print('copytranslate')
+        # 显示正在翻译中
+        textbrowser_lock.acquire()
+        global_ms.text_print.emit('正在翻译中...')
+        textbrowser_lock.release()
+
         if self.dict_mode==1:
             str1=str1.strip()
             print(str1)
@@ -403,22 +408,34 @@ class MainWindow():
                 display = '已复制无换行文本到剪切板'
             else:
                 if len(str1) != 0:
-                    result = fanyi_text(str1, engine=self.engine, to_lang=langdic[self.ui.comboBox.currentText()],domain=account.domain)
+                    # 使用线程来执行翻译任务，避免界面卡死
+                    def translate_thread():
+                        result = fanyi_text(str1, engine=self.engine, to_lang=langdic[self.ui.comboBox.currentText()],domain=account.domain)
+                        display = ''
+                        if 'trans_result' in result:
+                            for i in result['trans_result']:
+                                display += i['dst'] + '\n'
+                            display = display[:-1]  # 去掉最后一个回车
+                        else:
+                            # 接口使用过于频繁会停止
+                            haveresult = 0
+                            display = '翻译功能出错'+'\n'+errorrecoder.print_error_clear()
+                        # 如果打开复制结果，则将结果复制到剪贴板中
+                        if self.ui.checkBox_3.isChecked() and not self.ui.checkBox_4.isChecked() and haveresult:
+                            pyperclip.copy(display)
+                        recorder.addrecord(display)
+                        textbrowser_lock.acquire()
+                        global_ms.text_print.emit(display)
+                        textbrowser_lock.release()
+
+                    thread = Thread(target=translate_thread)
+                    thread.daemon = True
+                    thread.start()
+                    return
                 else:
                     print('字符串为空，不进行翻译')
                     result = {"trans_result": [{'src': '', 'dst': ''}]}
-                display = ''
-                if 'trans_result' in result:
-                    for i in result['trans_result']:
-                        display += i['dst'] + '\n'
-                    display = display[:-1]  # 去掉最后一个回车
-                else:
-                    # 接口使用过于频繁会停止
-                    haveresult = 0
-                    display = '翻译功能出错'+'\n'+errorrecoder.print_error_clear()
-                # 如果打开复制结果，则将结果复制到剪贴板中
-            if self.ui.checkBox_3.isChecked() and not self.ui.checkBox_4.isChecked() and haveresult:
-                pyperclip.copy(display)
+                    display = ''
 
         recorder.addrecord(display)
         textbrowser_lock.acquire()
