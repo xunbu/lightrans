@@ -13,7 +13,7 @@ from resource_py.ErrorRecoder import errorrecoder
 baidulang=["auto","zh","en","fra","jp","kor","ru","spa","cht"]
 # youdaolang=["AUTO","AUTO","ZH_CN2EN","ZH_CN2FR","ZH_CN2JA","ZH_CN2KR","ZH_CN2RU","ZH_CN2SP","AUTO"]
 youdaozhiyunlang=["auto","zh-CHS","en","fr","ja","ko","ru","es","zh-CHT"]
-openailang=["自动","简体中文","英文","法文","日文","韩文","俄罗斯文","西班牙文","繁体中文"]
+openailang=["auto","Simplified Chinese","English","French","Japanese","Korean","Russian","Spanish","Traditional Chinese"]
 
 # baidu2youdao_dict=dict(zip(baidulang,youdaolang))
 # youdao2baidu_dict=dict(zip(youdaolang,baidulang))
