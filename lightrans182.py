@@ -20,7 +20,7 @@ from threading import Thread,Lock
 from PySide6.QtCore import Signal,QObject,QThread
 from PySide6 import QtCore,QtGui
 from PySide6.QtWidgets import QMessageBox
-from PySide6.QtGui import QTextCursor,QIcon
+from PySide6.QtGui import QTextCursor, QIcon, QTextBlockFormat
 from PySide6.QtUiTools import QUiLoader
 from resource_py.ecdict_API import ecdict_search
 
@@ -69,7 +69,7 @@ class MainWindow():
     auto_mode=0
     def __init__(self):
         self.ui=QUiLoader().load(r"./ui/lightrans.ui")
-        self.ui2=QUiLoader().load(r"ui/setting181.ui")
+        self.ui2=QUiLoader().load(r"ui/setting182.ui")
         self.engine=account.engine
         #应用qss样式表
         self.ui.setStyleSheet(lightqss)
@@ -140,8 +140,11 @@ class MainWindow():
 
         self.fontsize=12
         self.font=self.ui.textEdit.font()
+        self.font.setFamily("Noto Sans CJK")
+        #调整词间距（只影响英文）
         self.font.setWordSpacing(0.3)
-        self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,102)
+        #调整字间距
+        self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,120)
         self.font.setPointSize(self.fontsize)
         self.ui.textEdit.setFont(self.font)
         cursor=self.setcursorindent()
@@ -153,6 +156,8 @@ class MainWindow():
         cursor=QTextCursor(self.ui.textEdit.document())
         block_format=cursor.blockFormat()
         block_format.setTextIndent(20)
+        #调整行间距
+        block_format.setLineHeight(130.0, 1)
         cursor.setBlockFormat(block_format)
         return cursor
 
