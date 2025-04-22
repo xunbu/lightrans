@@ -9,12 +9,14 @@ import requests
 import random
 import json
 from hashlib import md5
+from typing import Union
 
-def baidu_trans(query,from_lang='auto',to_lang='zh'):
+def baidu_trans(query,from_lang='auto',to_lang='zh',domain:Union[str,None]=None):
     account=Account()
 # Set your own appid/appkey.
     appid = account.appid
     appkey = account.appkey
+
 
     # For list of language codes, please refer to `https://api.fanyi.baidu.com/doc/21`
     from_lang = from_lang
@@ -36,6 +38,10 @@ def baidu_trans(query,from_lang='auto',to_lang='zh'):
     # Build request
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     payload = {'appid': appid, 'q': query, 'from': from_lang, 'to': to_lang, 'salt': salt, 'sign': sign}
+
+    #如果有垂直领域，则添加
+    if(domain):
+        payload.update(domain=domain)
 
     # Send request
     r = requests.post(url, params=payload, headers=headers)

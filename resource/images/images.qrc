@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>eztrans256.ico</file>
+        <file>setting.png</file>
+        <file>toppingblack.png</file>
+        <file>toppingblue.png</file>
+        <file>copy.png</file>
+        <file>up.png</file>
+        <file>down.png</file>
+        <file>dict_blue.png</file>
+        <file>dict_black.png</file>
+        <file>auto_blue.png</file>
+        <file>auto_black.png</file>
+        <file>clear.png</file>
+        <file>screenshot.png</file>
+        <file>pre.png</file>
+        <file>next.png</file>
+     </qresource>
+</RCC>

@@ -69,7 +69,7 @@ class MainWindow():
     auto_mode=0
     def __init__(self):
         self.ui=QUiLoader().load(r"./ui/lightrans.ui")
-        self.ui2=QUiLoader().load(r"./ui/setting.ui")
+        self.ui2=QUiLoader().load(r"ui/setting179.ui")
         self.engine=account.engine
         #应用qss样式表
         self.ui.setStyleSheet(lightqss)
@@ -96,7 +96,7 @@ class MainWindow():
         self.ui.pushButton_next.setIcon(QIcon(r":/next.png"))
         self.ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
         self.ui.textEdit.setPlaceholderText(f"划词翻译:选中要翻译的内容,{hotkey_select}翻译\n输入翻译:输入要翻译的内容,{hotkey_input}翻译\n无换行复制:{hotkey_select}复制无换行符文本\nOCR文字识别:{hotkey_ocr}")
-        self.ui2.label_5.setText('V1.7.8   项目主页: <a style="color:black" href="https://www.xunbu.cc/lightrans">xunbu.cc/lightrans</a>')
+        self.ui2.label_5.setText('V1.8.0   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
         self.ui.pushButton_topping.clicked.connect(self.toppingwindow)
         self.ui.pushButton_copy.clicked.connect(self.copytext)
         self.ui.pushButton_setting.clicked.connect(self.showsetting)
@@ -113,6 +113,8 @@ class MainWindow():
         self.ui2.pushButton_3.clicked.connect(self.changeidkey)
         self.ui2.buttonGroup.buttonClicked.connect(self.changeengin)
         self.ui.widget_2.setVisible(False)
+
+        self.ui2.comboBox_domain.currentIndexChanged.connect(self.changedomain)
 
 
 
@@ -192,31 +194,43 @@ class MainWindow():
 
     def showsetting(self):
         self.ui2.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-        self.ui2.lineEdit.setText(account.appid)
-        self.ui2.lineEdit_2.setText(account.appkey)
-        self.ui2.lineEdit_3.setText(account.client_id)
-        self.ui2.lineEdit_4.setText(account.client_secret)
+        self.ui2.lineEdit_openai_url.setText(account.openai_url)
+        self.ui2.lineEdit_openai_key.setText(account.openai_key)
+        self.ui2.lineEdit_openai_model_id.setText(account.openai_model_id)
+        self.ui2.lineEdit_baidu_id.setText(account.appid)
+        self.ui2.lineEdit_baidu_key.setText(account.appkey)
+        self.ui2.lineEdit_ocr_id.setText(account.client_id)
+        self.ui2.lineEdit_ocr_key.setText(account.client_secret)
         self.ui2.lineEdit_select.setText(account.hotkey_select)
         self.ui2.lineEdit_input.setText(account.hotkey_input)
         self.ui2.lineEdit_screenshot.setText(account.hotkey_ocr)
-        if self.engine== 'youdao':
-            self.ui2.radioButton_youdao.setChecked(True)
+        self.ui2.comboBox_domain.setEnabled(False)
+        # if self.engine== 'youdao':
+        #     self.ui2.radioButton_youdao.setChecked(True)
+        if self.engine=='youdaozhiyun':
+            self.ui2.radioButton_youdaozhiyun.setChecked(True)
         elif self.engine== 'baidu':
             self.ui2.radioButton_baidu.setChecked(True)
-        elif self.engine=='baiduReptile':
-            self.ui2.radioButton_baiduReptile.setChecked(True)
-        elif self.engine=='youdaozhiyun':
-            self.ui2.radioButton_youdaozhiyun.setChecked(True)
+            self.ui2.comboBox_domain.setEnabled(True)
+        elif self.engine=='openai':
+            self.ui2.radioButton_OpenAiLiked.setChecked(True)
+        self.ui2.comboBox_domain.setCurrentIndex(['默认','生物医药','金融财经'].index(account.domain))
         self.ui2.show()
 
     #确认修改ID、key
     def changeidkey(self):
-        args = self.ui2.lineEdit.text(), self.ui2.lineEdit_2.text(), self.ui2.lineEdit_3.text(),self.ui2.lineEdit_4.text()
+        args=[]
+        args.extend([self.ui2.lineEdit_openai_url.text(),self.ui2.lineEdit_openai_key.text(),self.ui2.lineEdit_openai_model_id.text()])
+        args.extend([self.ui2.lineEdit_baidu_id.text(), self.ui2.lineEdit_baidu_key.text()])
+        args.extend([self.ui2.lineEdit_ocr_id.text(),self.ui2.lineEdit_ocr_key.text()])
         account.setidkey(args)
-        self.ui2.lineEdit.setText(account.appid)
-        self.ui2.lineEdit_2.setText(account.appkey)
-        self.ui2.lineEdit_3.setText(account.client_id)
-        self.ui2.lineEdit_4.setText(account.client_secret)
+        self.ui2.lineEdit_openai_url.setTest()
+        self.ui2.lineEdit_openai_key.setText()
+        self.ui2.lineEdit_openai_model_id.setText()
+        self.ui2.lineEdit_baidu_id.setText(account.appid)
+        self.ui2.lineEdit_baidu_key.setText(account.appkey)
+        self.ui2.lineEdit_ocr_id.setText(account.client_id)
+        self.ui2.lineEdit_ocr_key.setText(account.client_secret)
         QMessageBox.information(self.ui2, '操作成功', '设置成功')
     #确认修改热键
     def changehotkey(self):
@@ -238,15 +252,29 @@ class MainWindow():
     #修改翻译引擎
     def changeengin(self):
         checkedbutton=self.ui2.buttonGroup.checkedButton()
+        self.ui2.comboBox_domain.setEnabled(False)
         if "有道翻译" in checkedbutton.text():
             self.engine= 'youdao'
-        elif "百度API" in checkedbutton.text():
-            self.engine= 'baidu'
         elif "百度翻译" in checkedbutton.text():
-            self.engine = 'baiduReptile'
+            self.engine= 'baidu'
+            self.ui2.comboBox_domain.setEnabled(True)
         elif "有道智云" in checkedbutton.text():
             self.engine ='youdaozhiyun'
+        elif "OpenAiLiked" in checkedbutton.text():
+            self.engine ='openai'
         account.setengine(self.engine)
+
+    #修改垂直翻译
+    def changedomain(self):
+        domain = '默认'
+        comboBox_domain=self.ui2.comboBox_domain
+        if "默认" in comboBox_domain.currentText():
+            pass
+        elif "生物医药" in comboBox_domain.currentText():
+            domain= '生物医药'
+        elif "金融财经" in comboBox_domain.currentText():
+            domain= '金融财经'
+        account.setdomain(domain)
 
     def copytext(self):
         pyperclip.copy(self.ui.textEdit.toPlainText())
@@ -346,7 +374,7 @@ class MainWindow():
                                   f"{query['exchange'].replace('d:','过去分词:').replace('p:','过去式:').replace('3:','第三人称单数:').replace('i:','现在分词:').replace('s:','复数形式:').replace('r:','比较级:').replace('t:','最高级:')}" \
                                   f"\n{query['translation']}\n{query['definition']}"
         else:
-            if self.ui.checkBox_2.checkState() or self.ui.checkBox_4.checkState():  # 如果打开PDF模式或无换行复制
+            if self.ui.checkBox_2.isChecked() or self.ui.checkBox_4.isChecked():  # 如果打开PDF模式或无换行复制
                 list1 = [i for i in str1]
                 # 将\r转为\r\n
                 for idx, i in enumerate(list1):
@@ -369,12 +397,13 @@ class MainWindow():
                 str1 = ''.join(list1)
             # 如果打开无换行复制，则不翻译
             haveresult = 1
-            if self.ui.checkBox_4.checkState():
+            if self.ui.checkBox_4.isChecked():
+                print("123",self.ui.checkBox_4.isChecked())
                 pyperclip.copy(str1)
                 display = '已复制无换行文本到剪切板'
             else:
                 if len(str1) != 0:
-                    result = fanyi_text(str1, engine=self.engine, to_lang=langdic[self.ui.comboBox.currentText()])
+                    result = fanyi_text(str1, engine=self.engine, to_lang=langdic[self.ui.comboBox.currentText()],domain=account.domain)
                 else:
                     print('字符串为空，不进行翻译')
                     result = {"trans_result": [{'src': '', 'dst': ''}]}
@@ -388,7 +417,7 @@ class MainWindow():
                     haveresult = 0
                     display = '翻译功能出错'+'\n'+errorrecoder.print_error_clear()
                 # 如果打开复制结果，则将结果复制到剪贴板中
-            if self.ui.checkBox_3.checkState() and not self.ui.checkBox_4.checkState() and haveresult:
+            if self.ui.checkBox_3.isChecked() and not self.ui.checkBox_4.isChecked() and haveresult:
                 pyperclip.copy(display)
 
         recorder.addrecord(display)
@@ -522,7 +551,7 @@ class MainWindow():
                 #接口使用过于频繁会停止
                 haveresult=0
                 display='翻译功能出错'+'\n'+errorrecoder.print_error_clear()
-            if self.ui.checkBox_3.checkState() and haveresult:
+            if self.ui.checkBox_3.isChecked() and haveresult:
                 pyperclip.copy(display)
         recorder.addrecord(display)
         textbrowser_lock.acquire()
@@ -553,3 +582,4 @@ app.exec()
 
 
 
+#  pyinstaller -F --noconsole --icon="eztrans256.ico" lightrans179.py

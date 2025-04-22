@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>325</width>
+    <width>334</width>
     <height>354</height>
    </rect>
   </property>
@@ -164,6 +164,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_dict">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="maximumSize">
         <size>
          <width>25</width>
@@ -243,7 +246,7 @@
      <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Orientation::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
@@ -414,10 +417,13 @@
              <string>划词翻译失效</string>
             </property>
             <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
+             <enum>Qt::LayoutDirection::LeftToRight</enum>
             </property>
             <property name="text">
              <string>无换行复制</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
@@ -490,7 +496,7 @@
              <number>0</number>
             </property>
             <property name="sizeAdjustPolicy">
-             <enum>QComboBox::AdjustToContents</enum>
+             <enum>QComboBox::SizeAdjustPolicy::AdjustToContents</enum>
             </property>
             <property name="placeholderText">
              <string/>
@@ -578,10 +584,10 @@
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+         <enum>Qt::Orientation::Horizontal</enum>
         </property>
         <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
+         <enum>QSizePolicy::Policy::Expanding</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
