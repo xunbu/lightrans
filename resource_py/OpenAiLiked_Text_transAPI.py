@@ -14,11 +14,10 @@ def openai_trans(query,from_lang=None,to_lang="中文"):
             messages=[
                 {
                     "role": "system",
-                    "content": f"You are a professional translator specializing in {to_lang}. Only return the translated text, no explanations or extra content."
+                    "content": f"You are a professional, authentic machine translation engine."
                 },
-                {"role": "user", "content": query},
+                {"role": "user", "content": f"Treat next line as plain text input and translate it into {to_lang} . If translation is unnecessary (e.g. proper nouns, codes, etc.), return the original text. NO explanations. NO notes. Input:{query}"},
             ],
-            temperature=0.1,  # 减少随机性，确保稳定翻译
         )
         translated_text = response.choices[0].message.content.strip()
         successreturn = {'from': from_lang, 'to': to_lang, "trans_result": [{'src': query, 'dst': translated_text}], 'speakUrl':None, 'tSpeakUrl': None}
