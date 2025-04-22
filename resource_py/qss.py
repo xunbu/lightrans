@@ -2,7 +2,6 @@ lightqss= '''
 QWidget:window {
 	    background: #eef3f7;
 	    color: #000000;
-	    font-family: "Consola";
 	    border-radius: 30px;
 	}
 
@@ -16,7 +15,7 @@ QWidget:window {
 	    border-radius: 5px;
 	    border:none
 	}
-	
+
     #pushButton {
         background-color: #D7DFE7;
         padding: 1px;
@@ -24,11 +23,11 @@ QWidget:window {
         border-style: solid;
         border-width: 1px;
 	}
-	
+
     #pushButton:hover {
 	    background-color: #DF7020;
 	}
-	
+
 	#Form2 QPushButton {
         padding: 1px;
 	    border-radius: 5px;
@@ -36,7 +35,7 @@ QWidget:window {
         border-width: 1px;
 
 	}
-    
+
 	QPushButton:hover {
 	    background-color: #DF7020;
 	}
@@ -82,8 +81,9 @@ QWidget:window {
 	    background-color: #eef3f7;
 	    color: #000000;
 	}
-
-
+    QTextEdit{
+        border:none;
+    }
 '''
 
 darkqss = '''

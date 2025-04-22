@@ -96,7 +96,7 @@ class MainWindow():
         self.ui.pushButton_next.setIcon(QIcon(r":/next.png"))
         self.ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
         self.ui.textEdit.setPlaceholderText(f"划词翻译:选中要翻译的内容,{hotkey_select}翻译\n输入翻译:输入要翻译的内容,{hotkey_input}翻译\n无换行复制:{hotkey_select}复制无换行符文本\nOCR文字识别:{hotkey_ocr}")
-        self.ui2.label_5.setText('V1.8.2   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
+        self.ui2.label_5.setText('V1.8.3   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
         self.ui.pushButton_topping.clicked.connect(self.toppingwindow)
         self.ui.pushButton_copy.clicked.connect(self.copytext)
         self.ui.pushButton_setting.clicked.connect(self.showsetting)
