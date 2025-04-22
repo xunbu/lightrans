@@ -224,9 +224,9 @@ class MainWindow():
         args.extend([self.ui2.lineEdit_baidu_id.text(), self.ui2.lineEdit_baidu_key.text()])
         args.extend([self.ui2.lineEdit_ocr_id.text(),self.ui2.lineEdit_ocr_key.text()])
         account.setidkey(args)
-        self.ui2.lineEdit_openai_url.setTest()
-        self.ui2.lineEdit_openai_key.setText()
-        self.ui2.lineEdit_openai_model_id.setText()
+        self.ui2.lineEdit_openai_url.setText(account.openai_url)
+        self.ui2.lineEdit_openai_key.setText(account.openai_key)
+        self.ui2.lineEdit_openai_model_id.setText(account.openai_model_id)
         self.ui2.lineEdit_baidu_id.setText(account.appid)
         self.ui2.lineEdit_baidu_key.setText(account.appkey)
         self.ui2.lineEdit_ocr_id.setText(account.client_id)
@@ -439,7 +439,7 @@ class MainWindow():
 
 
         thread1 = Thread(target=run)
-        thread1.setDaemon(True)
+        thread1.daemon=True
         thread1.start()
 
     def translate(self):
@@ -453,7 +453,7 @@ class MainWindow():
                 raw_str = self.ui.textEdit.toPlainText()
                 global_ms.translateSignal.emit(raw_str)
         thread2 = Thread(target=run)
-        thread2.setDaemon(True)
+        thread2.daemon=True
         thread2.start()
 
     def ocr_button(self):
@@ -473,7 +473,7 @@ class MainWindow():
                 global_ms.show_capture.emit()
 
         thread3 = Thread(target=run)
-        thread3.setDaemon(True)
+        thread3.daemon=True
         thread3.start()
 
 
