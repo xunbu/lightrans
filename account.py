@@ -79,7 +79,16 @@ class Account():
 
     def setidkey(self,args):
         self.openai_url,self.openai_key,self.openai_model_id,self.appid,self.appkey, self.client_id,self.client_secret = args
-        self.init_ids_keys()
+        self.config.add_section('openai')
+        self.config.set('openai', 'url', self.openai_url)
+        self.config.set('openai', 'key', self.openai_key)
+        self.config.set('openai', 'model_id', self.openai_model_id)
+        self.config.add_section('百度翻译')
+        self.config.set('百度翻译', 'id', self.appid)
+        self.config.set('百度翻译', 'key', self.appkey)
+        self.config.add_section('百度OCR')
+        self.config.set('百度OCR', 'id', self.client_id)
+        self.config.set('百度OCR', 'key', self.client_secret)
 
     def sethotkey(self,args):
         # *args=(hotkey_select,hotkey_input,hotkey_ocr)
