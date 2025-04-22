@@ -4,7 +4,7 @@
 block_cipher = None
 
 
-a = Analysis(['lightrans182.py'],
+a = Analysis(['lightrans.py'],
              pathex=[],
              binaries=[],
              datas=[],
@@ -26,7 +26,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,  
           [],
-          name='lightrans182',
+          name='lightrans',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
