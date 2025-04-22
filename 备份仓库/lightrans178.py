@@ -69,7 +69,7 @@ class MainWindow():
     auto_mode=0
     def __init__(self):
         self.ui=QUiLoader().load(r"./ui/lightrans.ui")
-        self.ui2=QUiLoader().load(r"ui/setting179.ui")
+        self.ui2=QUiLoader().load(r"ui/setting180.ui")
         self.engine=account.engine
         #应用qss样式表
         self.ui.setStyleSheet(lightqss)

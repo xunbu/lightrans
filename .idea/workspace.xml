@@ -5,39 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9d2bbcdd-85c6-4c5b-a1df-42f00113ae56" name="变更" comment="update">
-      <change afterPath="$PROJECT_DIR$/lightrans180.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/auto_black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/auto_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/clear.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/copy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/dict_black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/dict_blue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/down.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/eztrans256.ico" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/images.qrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/lightrans177.spec" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/next.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/pre.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/screenshot.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/setting.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/toppingblack.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/toppingblue.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource/images/up.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource_py/OpenAiLiked_Text_transAPI.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resource_py/account.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ui/setting179.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/lightrans.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/lightrans.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account.ini" beforeDir="false" afterPath="$PROJECT_DIR$/account.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/account.py" beforeDir="false" afterPath="$PROJECT_DIR$/account.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lightrans178.py" beforeDir="false" afterPath="$PROJECT_DIR$/备份仓库/lightrans178.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource_py/Baidu_Text_transAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource_py/Baidu_Text_transAPI.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource_py/Baidu_Text_transAPI_Reptile.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource_py/Baidu_Text_transAPI_Reptile备份.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resource_py/fanyi_text_api.py" beforeDir="false" afterPath="$PROJECT_DIR$/resource_py/fanyi_text_api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lightrans180.py" beforeDir="false" afterPath="$PROJECT_DIR$/lightrans180.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ui/lightrans.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui/lightrans.ui" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ui/setting.ui" beforeDir="false" afterPath="$PROJECT_DIR$/备份仓库/setting178.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/setting179.ui" beforeDir="false" afterPath="$PROJECT_DIR$/ui/setting180.ui" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/备份仓库/lightrans178.py" beforeDir="false" afterPath="$PROJECT_DIR$/备份仓库/lightrans178.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -257,7 +229,7 @@
       <workItem from="1729086759894" duration="202000" />
       <workItem from="1729087074616" duration="4000" />
       <workItem from="1745294998281" duration="2805000" />
-      <workItem from="1745299129646" duration="758000" />
+      <workItem from="1745299129646" duration="2077000" />
     </task>
     <task id="LOCAL-00001" summary="add  database">
       <created>1652349941879</created>
