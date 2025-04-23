@@ -2,7 +2,7 @@ from typing import Union
 
 from resource_py.OpenAiLiked_Text_transAPI import openai_trans
 from resource_py.Baidu_Text_transAPI import baidu_trans
-from resource_py.Youdao_Text_transAPI import youdao_trans
+# from resource_py.Youdao_Text_transAPI import youdao_trans
 from resource_py.Youdao_Text_transAPI_zhiyun import youdao_zhiyun_trans
 from resource_py.ErrorRecoder import errorrecoder
 """

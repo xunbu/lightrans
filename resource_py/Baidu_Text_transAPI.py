@@ -5,7 +5,7 @@
 # You may install `requests` to run this code: pip install requests
 # Please refer to `https://api.fanyi.baidu.com/doc/21` for complete api document
 from account import Account
-import requests
+import httpx
 import random
 import json
 from hashlib import md5
@@ -44,7 +44,7 @@ def baidu_trans(query,from_lang='auto',to_lang='zh',domain:Union[str,None]=None)
         payload.update(domain=domain)
 
     # Send request
-    r = requests.post(url, params=payload, headers=headers)
+    r = httpx.post(url, params=payload, headers=headers)
     result = r.json()
 
     # Show response

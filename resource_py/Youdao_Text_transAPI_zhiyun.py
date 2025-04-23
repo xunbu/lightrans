@@ -1,4 +1,4 @@
-import requests
+import httpx
 from resource_py.ErrorRecoder import errorrecoder
 '''
 中文	zh-CHS
@@ -24,7 +24,7 @@ def youdao_zhiyun_trans(text:str,from_lang:str='auto',to_lang:str='auto')->dict:
     url = r"https://aidemo.youdao.com/trans"
     proxy = {"http": None, "https": None}
     data = {"q": text, "from":from_lang, "to":to_lang,"strict":True}
-    resp = requests.post(url, data,proxies=proxy).json()
+    resp = httpx.post(url, data,proxies=proxy).json()
     if resp['errorCode']!='0':
         errorrecoder.adderror(f"有道智云错误码:{resp['errorCode']}")
         return {'error_code':resp['errorCode']}

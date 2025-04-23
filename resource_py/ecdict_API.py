@@ -1,4 +1,4 @@
-import requests,json,re
+import httpx,json,re
 def ecdict_search(word='',mode='query'):
     if not re.match(r"[\s?a-zA-Z+]",word):
         return {'error':'word is not English'}
@@ -7,6 +7,6 @@ def ecdict_search(word='',mode='query'):
     headers={'Content-Type': 'application/json'}
     data = json.dumps({'word':word,'mode':mode})
     print(data)
-    response = requests.post(url, data=data,headers=headers,proxies=proxies)
+    response = httpx.post(url, data=data,headers=headers,proxies=proxies)
     response_json=response.json()
     return response_json
