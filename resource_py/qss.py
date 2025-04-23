@@ -1,17 +1,16 @@
-lightqss= '''
+lightqss = '''
 QWidget:window {
 	    background: #eef3f7;
 	    color: #000000;
 	    border-radius: 30px;
 	}
 
-	QtextEdit {
-	    background-color: #D7DFE7;
-	    color: #000000;
+	QTextEdit {
 	    border-radius: 30px;
         border:none;
 	}
-
+    
+    
 	QPushButton {
 	    border-radius: 5px;
 	    border:none
@@ -151,4 +150,3 @@ background-color: #181F25;
 color: #ffffff;
 }
 '''
-
