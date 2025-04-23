@@ -141,10 +141,11 @@ class MainWindow():
         self.fontsize=12
         self.font=self.ui.textEdit.font()
         self.font.setFamily("Noto Sans CJK")
+        # self.font.setFamily("微软雅黑")
         #调整词间距（只影响英文）
         self.font.setWordSpacing(0.3)
         #调整字间距
-        self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,120)
+        self.font.setLetterSpacing(QtGui.QFont.PercentageSpacing,110)
         self.font.setPointSize(self.fontsize)
         self.ui.textEdit.setFont(self.font)
         cursor=self.setcursorindent()
@@ -604,4 +605,4 @@ app.exec()
 
 
 
-#  pyinstaller -F --noconsole --icon="eztrans256.ico" lightrans179.py
+#  pyinstaller -F --noconsole --icon="eztrans256.ico" --add-data="ui:ui" lightrans.py

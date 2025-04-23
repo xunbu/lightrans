@@ -9,6 +9,7 @@ QWidget:window {
 	    background-color: #D7DFE7;
 	    color: #000000;
 	    border-radius: 30px;
+        border:none;
 	}
 
 	QPushButton {
@@ -80,10 +81,8 @@ QWidget:window {
 	QLabel{
 	    background-color: #eef3f7;
 	    color: #000000;
+        font-family: "微软雅黑";
 	}
-    QTextEdit{
-        border:none;
-    }
 '''
 
 darkqss = '''
