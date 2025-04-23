@@ -16,7 +16,7 @@ def openai_trans(query,from_lang=None,to_lang="中文"):
                     "role": "system",
                     "content": f"You are a professional, authentic machine translation engine."
                 },
-                {"role": "user", "content": f"translate text input into {to_lang} . If translation is unnecessary (e.g. proper nouns, codes, etc.), return the original text. NO explanations. NO notes. Text input:{query}"},
+                {"role": "user", "content": f"translate text input into {to_lang} . If translation is unnecessary (e.g. proper nouns, codes, etc.), return the original text. NO explanations. NO notes.  Text input:{query}"},
             ],
         )
         translated_text = response.choices[0].message.content.strip()
