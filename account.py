@@ -1,4 +1,5 @@
-import os,json,configparser
+import configparser
+from resource_py.utils import config_file_path
 class Account():
     openai_url=''
     openai_key=''
@@ -18,7 +19,7 @@ class Account():
 
     def __init__(self):
         self.config=configparser.ConfigParser()
-        self.config.read('./account.ini', encoding='utf-8')#若文件不存在也会返回值
+        self.config.read(config_file_path, encoding='utf-8')#若文件不存在也会返回值
         self.init_ids_keys()
         self.init_hotkey()
         self.init_engin()
@@ -55,7 +56,7 @@ class Account():
             self.config.set('百度OCR', 'id', self.client_id)
             self.config.set('百度OCR', 'key', self.client_secret)     
         if flag:
-            self.config.write(open('account.ini', 'w', encoding='utf-8'))
+            self.config.write(open(config_file_path, 'w', encoding='utf-8'))
 
     def init_hotkey(self):
         if self.config.has_section('热键'):
@@ -86,7 +87,7 @@ class Account():
         self.config.set('百度翻译', 'key', self.appkey)
         self.config.set('百度OCR', 'id', self.client_id)
         self.config.set('百度OCR', 'key', self.client_secret)
-        self.config.write(open('account.ini', 'w', encoding='utf-8'))
+        self.config.write(open(config_file_path, 'w', encoding='utf-8'))
 
     def sethotkey(self,args):
         # *args=(hotkey_select,hotkey_input,hotkey_ocr)
@@ -109,19 +110,19 @@ class Account():
         self.config.set('热键','select',self.hotkey_select)
         self.config.set('热键','ocr',self.hotkey_ocr)
         self.config.set('热键','input',self.hotkey_input)
-        self.config.write(open('account.ini', 'w',encoding='utf-8'))
+        self.config.write(open(config_file_path, 'w',encoding='utf-8'))
 
     def _engine2ini(self):
         if not self.config.has_section('翻译引擎'):
             self.config.add_section('翻译引擎')
         self.config.set('翻译引擎','engine', self.engine)
-        self.config.write(open('account.ini', 'w', encoding='utf-8'))
+        self.config.write(open(config_file_path, 'w', encoding='utf-8'))
 
     def _domain2ini(self):
         if not self.config.has_section('垂直翻译'):
             self.config.add_section('垂直翻译')
         self.config.set('垂直翻译', 'baidu_domain', self.domain)
-        self.config.write(open('account.ini', 'w', encoding='utf-8'))
+        self.config.write(open(config_file_path, 'w', encoding='utf-8'))
 
 
 if __name__ == '__main__':

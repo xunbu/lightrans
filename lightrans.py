@@ -1,6 +1,5 @@
+from resource_py.utils import resource_path,config_dir,open_folder_in_explorer
 import threading
-
-
 from resource_py.stardict import StarDict
 from account import Account
 from resource_py.qss import lightqss,darkqss
@@ -30,14 +29,15 @@ textbrowser_lock=Lock()
 recorder=Recorder()
 account=Account()
 
-path='./dict.db'
-ecdict=StarDict(path)
+dict_path=resource_path('dict.db')
+ecdict=StarDict(dict_path)
 
 hotkey_select=account.hotkey_select
 hotkey_input=account.hotkey_input
 hotkey_ocr=account.hotkey_ocr
 
 capturethread=QThread()
+
 
 def clipboard_ocr(picture_bytes):
     # print(f'picturebytes={picture_bytes}\ntype={type(picture_bytes)}')
@@ -68,8 +68,8 @@ class MainWindow():
     dict_mode=0
     auto_mode=0
     def __init__(self):
-        self.ui=QUiLoader().load(r"./ui/lightrans.ui")
-        self.ui2=QUiLoader().load(r"ui/setting.ui")
+        self.ui=QUiLoader().load(resource_path("ui/lightrans.ui"))
+        self.ui2=QUiLoader().load(resource_path("ui/setting.ui"))
         self.engine=account.engine
         #应用qss样式表
         self.ui.setStyleSheet(lightqss)
@@ -96,7 +96,7 @@ class MainWindow():
         self.ui.pushButton_next.setIcon(QIcon(r":/next.png"))
         self.ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
         self.ui.textEdit.setPlaceholderText(f"划词翻译:选中要翻译的内容,{hotkey_select}翻译\n输入翻译:输入要翻译的内容,{hotkey_input}翻译\n无换行复制:{hotkey_select}复制无换行符文本\nOCR文字识别:{hotkey_ocr}")
-        self.ui2.label_5.setText('V1.8.3   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
+        self.ui2.label_5.setText('V1.8.4   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
         self.ui.pushButton_topping.clicked.connect(self.toppingwindow)
         self.ui.pushButton_copy.clicked.connect(self.copytext)
         self.ui.pushButton_setting.clicked.connect(self.showsetting)
@@ -112,6 +112,7 @@ class MainWindow():
         self.ui2.pushButton_2.clicked.connect(self.resethotkey)
         self.ui2.pushButton_3.clicked.connect(self.changeidkey)
         self.ui2.buttonGroup.buttonClicked.connect(self.changeengin)
+        self.ui2.pushButton_config.clicked.connect(self.open_config_dir)
         self.ui.widget_2.setVisible(False)
 
         self.ui2.comboBox_domain.currentIndexChanged.connect(self.changedomain)
@@ -151,6 +152,8 @@ class MainWindow():
         cursor=self.setcursorindent()
 
 
+    def open_config_dir(self):
+        open_folder_in_explorer(config_dir)
 
     def setcursorindent(self):
         self.ui.textEdit.clear()
@@ -605,4 +608,4 @@ app.exec()
 
 
 
-#  pyinstaller -F --noconsole --icon="eztrans256.ico" --add-data="ui:ui" lightrans.py
+#  pyinstaller -F --noconsole --icon="eztrans256.ico" --add-data="ui;ui" lightrans.py

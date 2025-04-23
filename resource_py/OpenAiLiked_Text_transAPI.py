@@ -1,5 +1,5 @@
 from account import Account
-from openai import OpenAI, base_url, api_key
+from openai import OpenAI
 
 
 def openai_trans(query,from_lang=None,to_lang="中文"):
