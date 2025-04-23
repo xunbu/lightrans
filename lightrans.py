@@ -4,7 +4,8 @@ from resource_py.stardict import StarDict
 from account import Account
 from resource_py.qss import lightqss,darkqss
 from capture import CaptureWidget
-from PySide6.QtWidgets import QApplication,QWidget
+from PySide6.QtWidgets import QApplication,QWidget, QSystemTrayIcon, QMenu
+from PySide6.QtCore import Signal,QObject,QThread, QEvent, Qt
 import time
 from resource_py.fanyi_text_api import fanyi_text
 from resource_py.Baidu_ocr_API import baiduocrAPI
@@ -47,11 +48,6 @@ def clipboard_ocr(picture_bytes):
         a=-1
     # print(f'a={a}')
 
-    if type(a)==int:
-        return -1
-    else:
-        return a
-
 
 class MySignals(QObject):
     text_print = Signal(str)
@@ -63,11 +59,12 @@ global_ms = MySignals()
 langdic={"简体中文":"zh","Français":"fra","Español":"spa","English":"en","日本語":"jp","한국어 공부 해요":"kor","русский язык":"ru","繁體中文":"cht"}
 
 
-class MainWindow():
+class MainWindow(QObject): # 继承 QObject
     topping=1
     dict_mode=0
     auto_mode=0
     def __init__(self):
+        super().__init__() # 调用父类构造函数
         self.ui=QUiLoader().load(resource_path("ui/lightrans.ui"))
         self.ui2=QUiLoader().load(resource_path("ui/setting.ui"))
         self.engine=account.engine
@@ -84,6 +81,23 @@ class MainWindow():
         self.ui2.setStyleSheet(lightqss)
         self.ui.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
         self.ui2.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
+
+        # 创建系统托盘图标 (移除父窗口)
+        self.tray_icon = QSystemTrayIcon()
+        self.tray_icon.setIcon(QtGui.QIcon(':/eztrans256.ico'))
+        self.tray_icon.setToolTip("Lightrans")
+
+        # 创建托盘菜单
+        tray_menu = QMenu()
+        show_action = tray_menu.addAction("显示")
+        show_action.triggered.connect(self.show_window)
+        quit_action = tray_menu.addAction("退出")
+        quit_action.triggered.connect(QApplication.instance().quit)
+        self.tray_icon.setContextMenu(tray_menu)
+
+        # 连接托盘图标激活信号
+        self.tray_icon.activated.connect(self.tray_icon_activated)
+
         self.ui.pushButton_topping.setIcon(QIcon(r":/toppingblue.png"))
         self.ui.pushButton_setting.setIcon(QIcon(r":/setting.png"))
         self.ui.pushButton_copy.setIcon(QIcon(r":/copy.png"))
@@ -151,6 +165,41 @@ class MainWindow():
         self.ui.textEdit.setFont(self.font)
         cursor=self.setcursorindent()
 
+        # 为主窗口安装事件过滤器
+        self.ui.installEventFilter(self)
+
+        # 移除 changeEvent 方法
+        # def changeEvent(self, event: QEvent):
+    #     if event.type() == QEvent.Type.WindowStateChange:
+    #         if self.windowState() & Qt.WindowState.WindowMinimized:
+    #             # 窗口最小化时隐藏窗口并显示托盘图标
+    #             self.tray_icon.show()
+    #             self.hide() # 隐藏 MainWindow 自身
+    #             event.ignore() # 阻止默认的最小化行为
+    #             return
+    #     super().changeEvent(event) # 调用基类实现
+
+    # 托盘图标激活处理
+    def tray_icon_activated(self, reason):
+        if reason == QSystemTrayIcon.ActivationReason.Trigger: # 左键单击
+            self.show_window()
+
+    # 显示窗口
+    def show_window(self):
+        self.ui.showNormal() # 显示 self.ui
+        self.ui.activateWindow() # 激活 self.ui
+        self.tray_icon.hide()
+
+    # 事件过滤器，用于处理窗口状态变化
+    def eventFilter(self, watched, event):
+        if watched == self.ui and event.type() == QEvent.WindowStateChange:
+            if self.ui.windowState() & Qt.WindowMinimized:
+                # 窗口最小化时隐藏窗口并显示托盘图标
+                self.tray_icon.show()
+                self.ui.hide()
+                return True # 事件已处理
+        # 确保调用基类的 eventFilter
+        return super(MainWindow, self).eventFilter(watched, event)
 
     def open_config_dir(self):
         open_folder_in_explorer(config_dir)
