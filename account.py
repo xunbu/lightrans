@@ -4,6 +4,8 @@ class Account():
     customAPI_url=''
     customAPI_key=''
     customAPI_model_id=''
+    zhipu_key=''
+    zhipu_model_id=''
     appid=''
     appkey=''
     client_id=''
@@ -39,6 +41,14 @@ class Account():
             self.config.set('customAPI', 'url', self.customAPI_url)
             self.config.set('customAPI', 'key', self.customAPI_key)
             self.config.set('customAPI', 'model_id', self.customAPI_model_id)
+        if self.config.has_section("zhipu"):
+            self.zhipu_key=self.config.get('zhipu','key')
+            self.zhipu_model_id=self.config.get('zhipu','model_id')
+        else:
+            flag=True
+            self.config.add_section('zhipu')
+            self.config.set('zhipu', 'key', self.zhipu_key)
+            self.config.set('zhipu', 'model_id', self.zhipu_model_id)
         if self.config.has_section('百度翻译'):
             self.appid = self.config.get('百度翻译', 'id')
             self.appkey = self.config.get('百度翻译', 'key')
@@ -78,11 +88,16 @@ class Account():
         else:
             self._domain2ini()
 
-    def setidkey(self,args):
-        self.customAPI_url,self.customAPI_key,self.customAPI_model_id,self.appid,self.appkey, self.client_id,self.client_secret = args
+    def setidkey(self,keys_dict):
+        self.customAPI_url,self.customAPI_key,self.customAPI_model_id=keys_dict["customAPI_url"],keys_dict["customAPI_key"],keys_dict["customAPI_model_id"]       
+        self.zhipu_key,self.zhipu_model_id=keys_dict["zhipu_key"],keys_dict["zhipu_model_id"]
+        self.appid,self.appkey=keys_dict["baidu_id"],keys_dict["baidu_key"]
+        self.client_id,self.client_secret=keys_dict["ocr_id"],keys_dict["ocr_key"]
         self.config.set('customAPI', 'url', self.customAPI_url)
         self.config.set('customAPI', 'key', self.customAPI_key)
         self.config.set('customAPI', 'model_id', self.customAPI_model_id)
+        self.config.set('zhipu', 'key', self.zhipu_key)
+        self.config.set('zhipu', 'model_id', self.zhipu_model_id)
         self.config.set('百度翻译', 'id', self.appid)
         self.config.set('百度翻译', 'key', self.appkey)
         self.config.set('百度OCR', 'id', self.client_id)

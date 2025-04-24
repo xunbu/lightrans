@@ -24,7 +24,7 @@ from PySide6.QtGui import QTextCursor, QIcon, QTextBlockFormat
 from PySide6.QtUiTools import QUiLoader
 from resource_py.ecdict_API import ecdict_search
 
-app_name="lightrans v1.8.5"
+app_name="lightrans v1.8.6"
 
 copytranslate_lock=Lock()
 textbrowser_lock=Lock()
@@ -260,6 +260,8 @@ class MainWindow(QObject): # 继承 QObject
         self.ui2.lineEdit_customAPI_url.setText(account.customAPI_url)
         self.ui2.lineEdit_customAPI_key.setText(account.customAPI_key)
         self.ui2.lineEdit_customAPI_model_id.setText(account.customAPI_model_id)
+        self.ui2.lineEdit_zhipu_key.setText(account.zhipu_key)
+        self.ui2.lineEdit_zhipu_model_id.setText(account.zhipu_model_id)
         self.ui2.lineEdit_baidu_id.setText(account.appid)
         self.ui2.lineEdit_baidu_key.setText(account.appkey)
         self.ui2.lineEdit_ocr_id.setText(account.client_id)
@@ -273,11 +275,17 @@ class MainWindow(QObject): # 继承 QObject
 
     #确认修改ID、key
     def changeidkey(self):
-        args=[]
-        args.extend([self.ui2.lineEdit_customAPI_url.text(),self.ui2.lineEdit_customAPI_key.text(),self.ui2.lineEdit_customAPI_model_id.text()])
-        args.extend([self.ui2.lineEdit_baidu_id.text(), self.ui2.lineEdit_baidu_key.text()])
-        args.extend([self.ui2.lineEdit_ocr_id.text(),self.ui2.lineEdit_ocr_key.text()])
-        account.setidkey(args)
+        keys_dict={}
+        keys_dict["customAPI_url"]=self.ui2.lineEdit_customAPI_url.text()
+        keys_dict["customAPI_key"]=self.ui2.lineEdit_customAPI_key.text()
+        keys_dict["customAPI_model_id"]=self.ui2.lineEdit_customAPI_model_id.text()
+        keys_dict["zhipu_key"]=self.ui2.lineEdit_zhipu_key.text()
+        keys_dict["zhipu_model_id"]=self.ui2.lineEdit_zhipu_model_id.text()
+        keys_dict["baidu_id"]=self.ui2.lineEdit_baidu_id.text()
+        keys_dict["baidu_key"]=self.ui2.lineEdit_baidu_key.text()
+        keys_dict["ocr_id"]=self.ui2.lineEdit_ocr_id.text()
+        keys_dict["ocr_key"]=self.ui2.lineEdit_ocr_key.text()
+        account.setidkey(keys_dict)
         self.ui2.lineEdit_customAPI_url.setText(account.customAPI_url)
         self.ui2.lineEdit_customAPI_key.setText(account.customAPI_key)
         self.ui2.lineEdit_customAPI_model_id.setText(account.customAPI_model_id)

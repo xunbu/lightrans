@@ -87,6 +87,15 @@ def fanyi_text(word:str,engine:str='youdao',from_lang:str='auto',to_lang:str='zh
         else:
             successreturn['from'],successreturn['to'],successreturn['trans_result']=result['from'],result['to'],result['trans_result']
             successreturn['speakUrl'], successreturn['tSpeakUrl']=result['speakUrl'],result['tSpeakUrl']
+    elif engine=='zhipu':
+        from_lang, to_lang = baidu2openai_dict[from_lang], baidu2openai_dict[to_lang]
+        result=openai_trans(word,from_lang,to_lang)
+        if 'error_code' in result:
+            errorflag=1
+            errorreturn['error_code']=result['error_code']
+        else:
+            successreturn['from'],successreturn['to'],successreturn['trans_result']=result['from'],result['to'],result['trans_result']
+            successreturn['speakUrl'], successreturn['tSpeakUrl']=result['speakUrl'],result['tSpeakUrl']
     else:
         raise Exception("engine error")
 
