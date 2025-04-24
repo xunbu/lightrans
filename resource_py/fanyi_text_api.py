@@ -1,9 +1,6 @@
 from typing import Union
 
-from resource_py.OpenAiLiked_Text_transAPI import openai_trans
-from resource_py.Baidu_Text_transAPI import baidu_trans
-# from resource_py.Youdao_Text_transAPI import youdao_trans
-from resource_py.Youdao_Text_transAPI_zhiyun import youdao_zhiyun_trans
+from .fanyiAPI import *
 from resource_py.ErrorRecoder import errorrecoder
 """
 将多种翻译统一为百度格式(语言选择/json等)
@@ -81,7 +78,16 @@ def fanyi_text(word:str,engine:str='youdao',from_lang:str='auto',to_lang:str='zh
         else:
             successreturn['from'],successreturn['to'],successreturn['trans_result']=result['from'],result['to'],result['trans_result']
             successreturn['speakUrl'], successreturn['tSpeakUrl']=result['speakUrl'],result['tSpeakUrl']
-    elif engine=='openai':
+    elif engine=='customAPI':
+        from_lang, to_lang = baidu2openai_dict[from_lang], baidu2openai_dict[to_lang]
+        result=openai_trans(word,from_lang,to_lang)
+        if 'error_code' in result:
+            errorflag=1
+            errorreturn['error_code']=result['error_code']
+        else:
+            successreturn['from'],successreturn['to'],successreturn['trans_result']=result['from'],result['to'],result['trans_result']
+            successreturn['speakUrl'], successreturn['tSpeakUrl']=result['speakUrl'],result['tSpeakUrl']
+    elif engine=='zhipu':
         from_lang, to_lang = baidu2openai_dict[from_lang], baidu2openai_dict[to_lang]
         result=openai_trans(word,from_lang,to_lang)
         if 'error_code' in result:
@@ -91,7 +97,7 @@ def fanyi_text(word:str,engine:str='youdao',from_lang:str='auto',to_lang:str='zh
             successreturn['from'],successreturn['to'],successreturn['trans_result']=result['from'],result['to'],result['trans_result']
             successreturn['speakUrl'], successreturn['tSpeakUrl']=result['speakUrl'],result['tSpeakUrl']
     else:
-        raise "engine error"
+        raise Exception("engine error")
 
     if errorflag==1:
         print(errorreturn)

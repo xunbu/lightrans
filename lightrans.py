@@ -4,7 +4,8 @@ from resource_py.stardict import StarDict
 from account import Account
 from resource_py.qss import lightqss,darkqss
 from capture import CaptureWidget
-from PySide6.QtWidgets import QApplication,QWidget
+from PySide6.QtWidgets import QApplication,QWidget, QSystemTrayIcon, QMenu
+from PySide6.QtCore import Signal,QObject,QThread, QEvent, Qt
 import time
 from resource_py.fanyi_text_api import fanyi_text
 from resource_py.Baidu_ocr_API import baiduocrAPI
@@ -22,6 +23,8 @@ from PySide6.QtWidgets import QMessageBox
 from PySide6.QtGui import QTextCursor, QIcon, QTextBlockFormat
 from PySide6.QtUiTools import QUiLoader
 from resource_py.ecdict_API import ecdict_search
+
+app_name="lightrans v1.8.6"
 
 copytranslate_lock=Lock()
 textbrowser_lock=Lock()
@@ -47,11 +50,6 @@ def clipboard_ocr(picture_bytes):
         a=-1
     # print(f'a={a}')
 
-    if type(a)==int:
-        return -1
-    else:
-        return a
-
 
 class MySignals(QObject):
     text_print = Signal(str)
@@ -63,14 +61,16 @@ global_ms = MySignals()
 langdic={"简体中文":"zh","Français":"fra","Español":"spa","English":"en","日本語":"jp","한국어 공부 해요":"kor","русский язык":"ru","繁體中文":"cht"}
 
 
-class MainWindow():
+class MainWindow(QObject): # 继承 QObject
     topping=1
     dict_mode=0
     auto_mode=0
     def __init__(self):
+        super().__init__() # 调用父类构造函数
         self.ui=QUiLoader().load(resource_path("ui/lightrans.ui"))
         self.ui2=QUiLoader().load(resource_path("ui/setting.ui"))
-        self.engine=account.engine
+        self.engine=None
+        self.setengine(account.engine)
         #应用qss样式表
         self.ui.setStyleSheet(lightqss)
         #如果使用py代码导入界面
@@ -84,6 +84,23 @@ class MainWindow():
         self.ui2.setStyleSheet(lightqss)
         self.ui.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
         self.ui2.setWindowIcon(QtGui.QIcon(':/eztrans256.ico'))
+
+        # 创建系统托盘图标 (移除父窗口)
+        self.tray_icon = QSystemTrayIcon()
+        self.tray_icon.setIcon(QtGui.QIcon(':/eztrans256.ico'))
+        self.tray_icon.setToolTip(app_name)
+
+        # 创建托盘菜单
+        tray_menu = QMenu()
+        show_action = tray_menu.addAction("显示")
+        show_action.triggered.connect(self.show_window)
+        quit_action = tray_menu.addAction("退出")
+        quit_action.triggered.connect(QApplication.instance().quit)
+        self.tray_icon.setContextMenu(tray_menu)
+
+        # 连接托盘图标激活信号
+        self.tray_icon.activated.connect(self.tray_icon_activated)
+
         self.ui.pushButton_topping.setIcon(QIcon(r":/toppingblue.png"))
         self.ui.pushButton_setting.setIcon(QIcon(r":/setting.png"))
         self.ui.pushButton_copy.setIcon(QIcon(r":/copy.png"))
@@ -96,7 +113,7 @@ class MainWindow():
         self.ui.pushButton_next.setIcon(QIcon(r":/next.png"))
         self.ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
         self.ui.textEdit.setPlaceholderText(f"划词翻译:选中要翻译的内容,{hotkey_select}翻译\n输入翻译:输入要翻译的内容,{hotkey_input}翻译\n无换行复制:{hotkey_select}复制无换行符文本\nOCR文字识别:{hotkey_ocr}")
-        self.ui2.label_5.setText('V1.8.4   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
+        self.ui2.label_5.setText(f'{app_name}   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
         self.ui.pushButton_topping.clicked.connect(self.toppingwindow)
         self.ui.pushButton_copy.clicked.connect(self.copytext)
         self.ui.pushButton_setting.clicked.connect(self.showsetting)
@@ -111,7 +128,7 @@ class MainWindow():
         self.ui2.pushButton.clicked.connect(self.changehotkey)
         self.ui2.pushButton_2.clicked.connect(self.resethotkey)
         self.ui2.pushButton_3.clicked.connect(self.changeidkey)
-        self.ui2.buttonGroup.buttonClicked.connect(self.changeengin)
+        self.ui2.buttonGroup.buttonClicked.connect(self.changeengine)
         self.ui2.pushButton_config.clicked.connect(self.open_config_dir)
         self.ui.widget_2.setVisible(False)
 
@@ -151,6 +168,50 @@ class MainWindow():
         self.ui.textEdit.setFont(self.font)
         cursor=self.setcursorindent()
 
+        # 为主窗口安装事件过滤器
+        self.ui.installEventFilter(self)
+
+        self.changeengine()
+
+        # 移除 changeEvent 方法
+        # def changeEvent(self, event: QEvent):
+    #     if event.type() == QEvent.Type.WindowStateChange:
+    #         if self.windowState() & Qt.WindowState.WindowMinimized:
+    #             # 窗口最小化时隐藏窗口并显示托盘图标
+    #             self.tray_icon.show()
+    #             self.hide() # 隐藏 MainWindow 自身
+    #             event.ignore() # 阻止默认的最小化行为
+    #             return
+    #     super().changeEvent(event) # 调用基类实现
+
+    # 托盘图标激活处理
+    def tray_icon_activated(self, reason):
+        if reason == QSystemTrayIcon.ActivationReason.Trigger: # 左键单击
+            self.show_window()
+
+    # 显示窗口
+    def show_window(self):
+        self.ui.showNormal() # 显示 self.ui
+        self.ui.activateWindow() # 激活 self.ui
+        self.tray_icon.hide()
+
+    # 事件过滤器，用于处理窗口状态变化
+    def eventFilter(self, watched, event):
+        if watched == self.ui: # 检查事件是否来自主窗口
+            if event.type() == QEvent.WindowStateChange:
+                if self.ui.windowState() & Qt.WindowMinimized:
+                    # 窗口最小化时隐藏窗口并显示托盘图标
+                    self.tray_icon.show()
+                    self.ui.hide()
+                    return True # 事件已处理
+            elif event.type() == QEvent.Close: # 检查关闭事件
+                # 主窗口关闭时，也关闭设置窗口
+                if hasattr(self, 'ui2') and self.ui2.isVisible():
+                    self.ui2.close()
+                # 不阻止主窗口的关闭事件，让它继续传递
+
+        # 确保调用基类的 eventFilter
+        return super(MainWindow, self).eventFilter(watched, event)
 
     def open_config_dir(self):
         open_folder_in_explorer(config_dir)
@@ -203,9 +264,11 @@ class MainWindow():
 
     def showsetting(self):
         self.ui2.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-        self.ui2.lineEdit_openai_url.setText(account.openai_url)
-        self.ui2.lineEdit_openai_key.setText(account.openai_key)
-        self.ui2.lineEdit_openai_model_id.setText(account.openai_model_id)
+        self.ui2.lineEdit_customAPI_url.setText(account.customAPI_url)
+        self.ui2.lineEdit_customAPI_key.setText(account.customAPI_key)
+        self.ui2.lineEdit_customAPI_model_id.setText(account.customAPI_model_id)
+        self.ui2.lineEdit_zhipu_key.setText(account.zhipu_key)
+        self.ui2.lineEdit_zhipu_model_id.setText(account.zhipu_model_id)
         self.ui2.lineEdit_baidu_id.setText(account.appid)
         self.ui2.lineEdit_baidu_key.setText(account.appkey)
         self.ui2.lineEdit_ocr_id.setText(account.client_id)
@@ -214,28 +277,25 @@ class MainWindow():
         self.ui2.lineEdit_input.setText(account.hotkey_input)
         self.ui2.lineEdit_screenshot.setText(account.hotkey_ocr)
         self.ui2.comboBox_domain.setEnabled(False)
-        # if self.engine== 'youdao':
-        #     self.ui2.radioButton_youdao.setChecked(True)
-        if self.engine=='youdaozhiyun':
-            self.ui2.radioButton_youdaozhiyun.setChecked(True)
-        elif self.engine== 'baidu':
-            self.ui2.radioButton_baidu.setChecked(True)
-            self.ui2.comboBox_domain.setEnabled(True)
-        elif self.engine=='openai':
-            self.ui2.radioButton_OpenAiLiked.setChecked(True)
         self.ui2.comboBox_domain.setCurrentIndex(['默认','生物医药','金融财经'].index(account.domain))
         self.ui2.show()
 
     #确认修改ID、key
     def changeidkey(self):
-        args=[]
-        args.extend([self.ui2.lineEdit_openai_url.text(),self.ui2.lineEdit_openai_key.text(),self.ui2.lineEdit_openai_model_id.text()])
-        args.extend([self.ui2.lineEdit_baidu_id.text(), self.ui2.lineEdit_baidu_key.text()])
-        args.extend([self.ui2.lineEdit_ocr_id.text(),self.ui2.lineEdit_ocr_key.text()])
-        account.setidkey(args)
-        self.ui2.lineEdit_openai_url.setText(account.openai_url)
-        self.ui2.lineEdit_openai_key.setText(account.openai_key)
-        self.ui2.lineEdit_openai_model_id.setText(account.openai_model_id)
+        keys_dict={}
+        keys_dict["customAPI_url"]=self.ui2.lineEdit_customAPI_url.text()
+        keys_dict["customAPI_key"]=self.ui2.lineEdit_customAPI_key.text()
+        keys_dict["customAPI_model_id"]=self.ui2.lineEdit_customAPI_model_id.text()
+        keys_dict["zhipu_key"]=self.ui2.lineEdit_zhipu_key.text()
+        keys_dict["zhipu_model_id"]=self.ui2.lineEdit_zhipu_model_id.text()
+        keys_dict["baidu_id"]=self.ui2.lineEdit_baidu_id.text()
+        keys_dict["baidu_key"]=self.ui2.lineEdit_baidu_key.text()
+        keys_dict["ocr_id"]=self.ui2.lineEdit_ocr_id.text()
+        keys_dict["ocr_key"]=self.ui2.lineEdit_ocr_key.text()
+        account.setidkey(keys_dict)
+        self.ui2.lineEdit_customAPI_url.setText(account.customAPI_url)
+        self.ui2.lineEdit_customAPI_key.setText(account.customAPI_key)
+        self.ui2.lineEdit_customAPI_model_id.setText(account.customAPI_model_id)
         self.ui2.lineEdit_baidu_id.setText(account.appid)
         self.ui2.lineEdit_baidu_key.setText(account.appkey)
         self.ui2.lineEdit_ocr_id.setText(account.client_id)
@@ -259,19 +319,35 @@ class MainWindow():
         QMessageBox.information(self.ui2, '操作成功', '热键设置将在下次启动程序时生效')
 
     #修改翻译引擎
-    def changeengin(self):
+    def setengine(self,engine:str):
+        self.engine=engine
+        self.ui2.engineSettingsStackedWidget.setVisible(True)
+        if engine=='youdaozhiyun':
+            self.ui2.engineSettingsStackedWidget.setVisible(False)
+            self.ui2.radioButton_youdaozhiyun.setChecked(True)
+        elif engine=='baidu':
+            self.ui2.comboBox_domain.setEnabled(True)
+            self.ui2.engineSettingsStackedWidget.setCurrentIndex(0)
+            self.ui2.radioButton_baidu.setChecked(True)
+        elif engine=='customAPI':
+            self.ui2.engineSettingsStackedWidget.setCurrentIndex(1)
+            self.ui2.radioButton_customAPI.setChecked(True)
+        elif engine=='zhipu':
+            self.engine ='zhipu'
+            self.ui2.engineSettingsStackedWidget.setCurrentIndex(2)
+            self.ui2.radioButton_zhipu.setChecked(True)
+        account.setengine(engine)
+        print(f"已写入{engine}")
+
+
+    def changeengine(self):
         checkedbutton=self.ui2.buttonGroup.checkedButton()
         self.ui2.comboBox_domain.setEnabled(False)
-        if "有道翻译" in checkedbutton.text():
-            self.engine= 'youdao'
-        elif "百度翻译" in checkedbutton.text():
-            self.engine= 'baidu'
-            self.ui2.comboBox_domain.setEnabled(True)
-        elif "有道智云" in checkedbutton.text():
-            self.engine ='youdaozhiyun'
-        elif "OpenAiLiked" in checkedbutton.text():
-            self.engine ='openai'
-        account.setengine(self.engine)
+        engine_dict={"有道智云":'youdaozhiyun',"百度翻译":"baidu","自定义":"customAPI","智谱":"zhipu"}
+        for key in engine_dict:
+            if key in checkedbutton.text():
+                self.setengine(engine_dict[key])
+
 
     #修改垂直翻译
     def changedomain(self):

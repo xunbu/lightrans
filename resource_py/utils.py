@@ -10,7 +10,7 @@ app_name = "lightrans" # 你的应用程序名
 config_dir = platformdirs.user_config_dir(app_name)
 # 确保目录存在
 os.makedirs(config_dir, exist_ok=True)
-# 构建配置文件的完整路径C:\Users\<Username>\AppData\Roaming\<app_author>\account.ini
+# 构建配置文件的完整路径C:\Users\jxgm\AppData\Local\lightrans\lightrans\account.ini
 config_file_path = os.path.join(config_dir, "account.ini") # 或者 .ini, .yaml 等
 
 def resource_path(relative_path):
