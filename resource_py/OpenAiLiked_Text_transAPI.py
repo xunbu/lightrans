@@ -4,13 +4,13 @@ from openai import OpenAI
 
 def openai_trans(query,from_lang=None,to_lang="中文"):
     account=Account()
-    base_url=account.openai_url
-    api_key=account.openai_key
+    base_url=account.customAPI_url
+    api_key=account.customAPI_key
     client = OpenAI(base_url=base_url,api_key="xx" if api_key =="" else api_key)
 
     try:
         response = client.chat.completions.create(
-            model=account.openai_model_id,
+            model=account.customAPI_model_id,
             messages=[
                 {
                     "role": "system",

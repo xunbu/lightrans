@@ -69,7 +69,8 @@ class MainWindow(QObject): # 继承 QObject
         super().__init__() # 调用父类构造函数
         self.ui=QUiLoader().load(resource_path("ui/lightrans.ui"))
         self.ui2=QUiLoader().load(resource_path("ui/setting.ui"))
-        self.engine=account.engine
+        self.engine=None
+        self.setengine(account.engine)
         #应用qss样式表
         self.ui.setStyleSheet(lightqss)
         #如果使用py代码导入界面
@@ -127,7 +128,7 @@ class MainWindow(QObject): # 继承 QObject
         self.ui2.pushButton.clicked.connect(self.changehotkey)
         self.ui2.pushButton_2.clicked.connect(self.resethotkey)
         self.ui2.pushButton_3.clicked.connect(self.changeidkey)
-        self.ui2.buttonGroup.buttonClicked.connect(self.changeengin)
+        self.ui2.buttonGroup.buttonClicked.connect(self.changeengine)
         self.ui2.pushButton_config.clicked.connect(self.open_config_dir)
         self.ui.widget_2.setVisible(False)
 
@@ -169,6 +170,8 @@ class MainWindow(QObject): # 继承 QObject
 
         # 为主窗口安装事件过滤器
         self.ui.installEventFilter(self)
+
+        self.changeengine()
 
         # 移除 changeEvent 方法
         # def changeEvent(self, event: QEvent):
@@ -254,9 +257,9 @@ class MainWindow(QObject): # 继承 QObject
 
     def showsetting(self):
         self.ui2.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-        self.ui2.lineEdit_openai_url.setText(account.openai_url)
-        self.ui2.lineEdit_openai_key.setText(account.openai_key)
-        self.ui2.lineEdit_openai_model_id.setText(account.openai_model_id)
+        self.ui2.lineEdit_customAPI_url.setText(account.customAPI_url)
+        self.ui2.lineEdit_customAPI_key.setText(account.customAPI_key)
+        self.ui2.lineEdit_customAPI_model_id.setText(account.customAPI_model_id)
         self.ui2.lineEdit_baidu_id.setText(account.appid)
         self.ui2.lineEdit_baidu_key.setText(account.appkey)
         self.ui2.lineEdit_ocr_id.setText(account.client_id)
@@ -265,28 +268,19 @@ class MainWindow(QObject): # 继承 QObject
         self.ui2.lineEdit_input.setText(account.hotkey_input)
         self.ui2.lineEdit_screenshot.setText(account.hotkey_ocr)
         self.ui2.comboBox_domain.setEnabled(False)
-        # if self.engine== 'youdao':
-        #     self.ui2.radioButton_youdao.setChecked(True)
-        if self.engine=='youdaozhiyun':
-            self.ui2.radioButton_youdaozhiyun.setChecked(True)
-        elif self.engine== 'baidu':
-            self.ui2.radioButton_baidu.setChecked(True)
-            self.ui2.comboBox_domain.setEnabled(True)
-        elif self.engine=='openai':
-            self.ui2.radioButton_OpenAiLiked.setChecked(True)
         self.ui2.comboBox_domain.setCurrentIndex(['默认','生物医药','金融财经'].index(account.domain))
         self.ui2.show()
 
     #确认修改ID、key
     def changeidkey(self):
         args=[]
-        args.extend([self.ui2.lineEdit_openai_url.text(),self.ui2.lineEdit_openai_key.text(),self.ui2.lineEdit_openai_model_id.text()])
+        args.extend([self.ui2.lineEdit_customAPI_url.text(),self.ui2.lineEdit_customAPI_key.text(),self.ui2.lineEdit_customAPI_model_id.text()])
         args.extend([self.ui2.lineEdit_baidu_id.text(), self.ui2.lineEdit_baidu_key.text()])
         args.extend([self.ui2.lineEdit_ocr_id.text(),self.ui2.lineEdit_ocr_key.text()])
         account.setidkey(args)
-        self.ui2.lineEdit_openai_url.setText(account.openai_url)
-        self.ui2.lineEdit_openai_key.setText(account.openai_key)
-        self.ui2.lineEdit_openai_model_id.setText(account.openai_model_id)
+        self.ui2.lineEdit_customAPI_url.setText(account.customAPI_url)
+        self.ui2.lineEdit_customAPI_key.setText(account.customAPI_key)
+        self.ui2.lineEdit_customAPI_model_id.setText(account.customAPI_model_id)
         self.ui2.lineEdit_baidu_id.setText(account.appid)
         self.ui2.lineEdit_baidu_key.setText(account.appkey)
         self.ui2.lineEdit_ocr_id.setText(account.client_id)
@@ -310,19 +304,34 @@ class MainWindow(QObject): # 继承 QObject
         QMessageBox.information(self.ui2, '操作成功', '热键设置将在下次启动程序时生效')
 
     #修改翻译引擎
-    def changeengin(self):
+    def setengine(self,engine:str):
+        self.engine=engine
+        self.ui2.engineSettingsStackedWidget.setVisible(True)
+        if engine=='youdaozhiyun':
+            self.ui2.engineSettingsStackedWidget.setVisible(False)
+            self.ui2.radioButton_youdaozhiyun.setChecked(True)
+        elif engine=='baidu':
+            self.ui2.comboBox_domain.setEnabled(True)
+            self.ui2.engineSettingsStackedWidget.setCurrentIndex(0)
+            self.ui2.radioButton_baidu.setChecked(True)
+        elif engine=='customAPI':
+            self.ui2.engineSettingsStackedWidget.setCurrentIndex(1)
+            self.ui2.radioButton_customAPI.setChecked(True)
+        elif engine=='zhipu':
+            self.engine ='zhipu'
+            self.ui2.engineSettingsStackedWidget.setCurrentIndex(2)
+            self.ui2.radioButton_zhipu.setChecked(True)
+        account.setengine(engine)
+        print(f"已写入{engine}")
+
+
+    def changeengine(self):
         checkedbutton=self.ui2.buttonGroup.checkedButton()
         self.ui2.comboBox_domain.setEnabled(False)
-        if "有道翻译" in checkedbutton.text():
-            self.engine= 'youdao'
-        elif "百度翻译" in checkedbutton.text():
-            self.engine= 'baidu'
-            self.ui2.comboBox_domain.setEnabled(True)
-        elif "有道智云" in checkedbutton.text():
-            self.engine ='youdaozhiyun'
-        elif "OpenAiLiked" in checkedbutton.text():
-            self.engine ='openai'
-        account.setengine(self.engine)
+        engine_dict={"有道智云":'youdaozhiyun',"百度翻译":"baidu","自定义":"customAPI","智谱":"zhipu"}
+        for key in engine_dict:
+            if key in checkedbutton.text():
+                self.setengine(engine_dict[key])
 
 
     #修改垂直翻译

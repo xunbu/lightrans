@@ -1,9 +1,9 @@
 import configparser
 from resource_py.utils import config_file_path
 class Account():
-    openai_url=''
-    openai_key=''
-    openai_model_id=''
+    customAPI_url=''
+    customAPI_key=''
+    customAPI_model_id=''
     appid=''
     appkey=''
     client_id=''
@@ -29,16 +29,16 @@ class Account():
 
     def init_ids_keys(self):
         flag=False
-        if self.config.has_section("openai"):
-            self.openai_url=self.config.get('openai','url')
-            self.openai_key=self.config.get('openai','key')
-            self.openai_model_id=self.config.get('openai','model_id')
+        if self.config.has_section("customAPI"):
+            self.customAPI_url=self.config.get('customAPI','url')
+            self.customAPI_key=self.config.get('customAPI','key')
+            self.customAPI_model_id=self.config.get('customAPI','model_id')
         else:
             flag=True
-            self.config.add_section('openai')
-            self.config.set('openai', 'url', self.openai_url)
-            self.config.set('openai', 'key', self.openai_key)
-            self.config.set('openai', 'model_id', self.openai_model_id)
+            self.config.add_section('customAPI')
+            self.config.set('customAPI', 'url', self.customAPI_url)
+            self.config.set('customAPI', 'key', self.customAPI_key)
+            self.config.set('customAPI', 'model_id', self.customAPI_model_id)
         if self.config.has_section('百度翻译'):
             self.appid = self.config.get('百度翻译', 'id')
             self.appkey = self.config.get('百度翻译', 'key')
@@ -79,10 +79,10 @@ class Account():
             self._domain2ini()
 
     def setidkey(self,args):
-        self.openai_url,self.openai_key,self.openai_model_id,self.appid,self.appkey, self.client_id,self.client_secret = args
-        self.config.set('openai', 'url', self.openai_url)
-        self.config.set('openai', 'key', self.openai_key)
-        self.config.set('openai', 'model_id', self.openai_model_id)
+        self.customAPI_url,self.customAPI_key,self.customAPI_model_id,self.appid,self.appkey, self.client_id,self.client_secret = args
+        self.config.set('customAPI', 'url', self.customAPI_url)
+        self.config.set('customAPI', 'key', self.customAPI_key)
+        self.config.set('customAPI', 'model_id', self.customAPI_model_id)
         self.config.set('百度翻译', 'id', self.appid)
         self.config.set('百度翻译', 'key', self.appkey)
         self.config.set('百度OCR', 'id', self.client_id)
@@ -127,5 +127,5 @@ class Account():
 
 if __name__ == '__main__':
     A=Account()
-    print(A.openai_url,A.openai_key,A.openai_model_id)
+    print(A.customAPI_url,A.customAPI_key,A.customAPI_model_id)
     print([A.appid,A.appkey,A.client_id,A.client_secret,A.hotkey_select,A.hotkey_ocr,A.hotkey_input])
