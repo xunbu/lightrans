@@ -24,6 +24,8 @@ from PySide6.QtGui import QTextCursor, QIcon, QTextBlockFormat
 from PySide6.QtUiTools import QUiLoader
 from resource_py.ecdict_API import ecdict_search
 
+app_name="lightrans v1.8.5"
+
 copytranslate_lock=Lock()
 textbrowser_lock=Lock()
 
@@ -85,7 +87,7 @@ class MainWindow(QObject): # 继承 QObject
         # 创建系统托盘图标 (移除父窗口)
         self.tray_icon = QSystemTrayIcon()
         self.tray_icon.setIcon(QtGui.QIcon(':/eztrans256.ico'))
-        self.tray_icon.setToolTip("Lightrans")
+        self.tray_icon.setToolTip(app_name)
 
         # 创建托盘菜单
         tray_menu = QMenu()
@@ -110,7 +112,7 @@ class MainWindow(QObject): # 继承 QObject
         self.ui.pushButton_next.setIcon(QIcon(r":/next.png"))
         self.ui.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint) # 窗体总在最前端
         self.ui.textEdit.setPlaceholderText(f"划词翻译:选中要翻译的内容,{hotkey_select}翻译\n输入翻译:输入要翻译的内容,{hotkey_input}翻译\n无换行复制:{hotkey_select}复制无换行符文本\nOCR文字识别:{hotkey_ocr}")
-        self.ui2.label_5.setText('V1.8.4   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
+        self.ui2.label_5.setText(f'{app_name}   项目主页: <a style="color:black" href="https://github.com/xunbu/lightrans">github主页</a>')
         self.ui.pushButton_topping.clicked.connect(self.toppingwindow)
         self.ui.pushButton_copy.clicked.connect(self.copytext)
         self.ui.pushButton_setting.clicked.connect(self.showsetting)
@@ -321,6 +323,7 @@ class MainWindow(QObject): # 继承 QObject
         elif "OpenAiLiked" in checkedbutton.text():
             self.engine ='openai'
         account.setengine(self.engine)
+
 
     #修改垂直翻译
     def changedomain(self):
