@@ -1,5 +1,5 @@
 class Recorder():
-    maxrecord=20
+    maxrecord=50
 
 
     def __init__(self):
