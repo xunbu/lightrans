@@ -12,7 +12,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtWidgets import QApplication, QSystemTrayIcon, QMenu
 from PySide6.QtWidgets import QMessageBox
 from pynput import mouse
-
+# 不可以删去resource_py.images
 import resource_py.images
 from account import Account
 from capture import CaptureWidget
@@ -25,7 +25,7 @@ from resource_py.recorder import Recorder
 from resource_py.stardict import StarDict
 from resource_py.utils import resource_path, config_dir, open_folder_in_explorer
 
-app_name="lightrans v1.8.6"
+app_name="lightrans v1.8.7"
 
 copytranslate_lock=Lock()
 textbrowser_lock=Lock()
