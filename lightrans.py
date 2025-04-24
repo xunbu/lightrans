@@ -1,28 +1,29 @@
-from resource_py.utils import resource_path,config_dir,open_folder_in_explorer
-import threading
-from resource_py.stardict import StarDict
-from account import Account
-from resource_py.qss import lightqss,darkqss
-from capture import CaptureWidget
-from PySide6.QtWidgets import QApplication,QWidget, QSystemTrayIcon, QMenu
-from PySide6.QtCore import Signal,QObject,QThread, QEvent, Qt
+import re
 import time
-from resource_py.fanyi_text_api import fanyi_text
-from resource_py.Baidu_ocr_API import baiduocrAPI
-from resource_py.recorder import Recorder
-from resource_py.ErrorRecoder import errorrecoder
-import json,re
-from pynput import mouse
+from threading import Thread, Lock
+
 import keyboard
 import pyperclip
-from resource_py import images
-from threading import Thread,Lock
-from PySide6.QtCore import Signal,QObject,QThread
-from PySide6 import QtCore,QtGui
-from PySide6.QtWidgets import QMessageBox
-from PySide6.QtGui import QTextCursor, QIcon, QTextBlockFormat
+from PySide6 import QtCore, QtGui
+from PySide6.QtCore import QEvent, Qt
+from PySide6.QtCore import Signal, QObject, QThread
+from PySide6.QtGui import QTextCursor, QIcon
 from PySide6.QtUiTools import QUiLoader
+from PySide6.QtWidgets import QApplication, QSystemTrayIcon, QMenu
+from PySide6.QtWidgets import QMessageBox
+from pynput import mouse
+
+import resource_py.images
+from account import Account
+from capture import CaptureWidget
+from resource_py.Baidu_ocr_API import baiduocrAPI
+from resource_py.ErrorRecoder import errorrecoder
 from resource_py.ecdict_API import ecdict_search
+from resource_py.fanyi_text_api import fanyi_text
+from resource_py.qss import lightqss
+from resource_py.recorder import Recorder
+from resource_py.stardict import StarDict
+from resource_py.utils import resource_path, config_dir, open_folder_in_explorer
 
 app_name="lightrans v1.8.6"
 
@@ -48,6 +49,7 @@ def clipboard_ocr(picture_bytes):
         a = baiduocrAPI(picture_bytes)
     except:
         a=-1
+    return a
     # print(f'a={a}')
 
 
